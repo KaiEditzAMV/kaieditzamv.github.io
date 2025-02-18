@@ -17,6 +17,9 @@
       font-family: 'Poppins', sans-serif;
       background-color: #1e1e2f;
       color: #fff;
+      background-image: url('bg-main.jpg'); /* Replace with your image path */
+      background-size: cover;
+      background-position: center;
     }
     header {
       background-image: url(bg.png.png);
@@ -34,12 +37,13 @@
     nav {
       display: flex;
       justify-content: center;
-      margin-top: 1rem;
+      align-items: center;
+      gap: 2rem;
+      margin: 0;
     }
     nav a {
       color: #fff;
       text-decoration: none;
-      margin: 0 1rem;
       padding: 0.5rem 1rem;
       border-radius: 8px;
       transition: background 0.3s;
@@ -52,18 +56,18 @@
       margin: 2rem;
     }
     .main-content {
-  flex: 3;
-  position: relative; /* Creates a new stacking context */
-  background-image: url('bgbehind.jpg'); /* Replace with your image path */
-  background-size: cover;
-  background-position: center;
-  background-color: #2e2e3e; /* Fallback color */
-  border-radius: 12px;
-  padding: 2rem;
-  margin-right: 2rem;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-  z-index: 1; /* Ensures the content is above the background */
-}
+      flex: 3;
+      position: relative; /* Creates a new stacking context */
+      background-image: url('bg-maincontent.png'); /* Replace with your image path */
+      background-size: cover;
+      background-position: center;
+      background-color: #2e2e3e; /* Fallback color */
+      border-radius: 12px;
+      padding: 2rem;
+      margin-right: 2rem;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+      z-index: 1;
+    }
     .main-content h2 {
       margin-bottom: 1rem;
       border-bottom: 2px solid #ffa502;
@@ -91,6 +95,9 @@
     .sidebar {
       flex: 1;
       background-color: #3e3e5e;
+      background-image: url('bgforlatestvids.jpg'); /* Replace with your image path */
+      background-size: cover;
+      background-position: center;
       border-radius: 12px;
       padding: 2rem;
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
@@ -119,12 +126,14 @@
     }
     footer {
       text-align: center;
-      padding: 1rem;
+      padding: 1rem 0;
       margin-top: 2rem;
       background-color: #2e2e3e;
       color: #ccc;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
     }
-    
     /* Popup overlay */
     #creditsPopup {
       display: none;
@@ -136,7 +145,6 @@
       background: rgba(0, 0, 0, 0.5);
       z-index: 1000;
     }
-    
     /* Popup box styled like other content areas */
     .popup {
       position: fixed;
@@ -145,6 +153,9 @@
       transform: translate(-50%, -50%);
       width: 40%;
       background-color: #2e2e3e;
+      background-image: url('bg-popup.jpg'); /* Replace with your image path */
+      background-size: cover;
+      background-position: center;
       padding: 2rem;
       border-radius: 12px;
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
@@ -169,7 +180,6 @@
       align-items: center;
       justify-content: center;
     }
-    
     /* Popup text styles matching other elements */
     .popup-title {
       text-align: center;
@@ -190,7 +200,6 @@
       line-height: 1.4;
       margin-bottom: 1rem;
     }
-    
     /* Invite button styled like nav elements */
     .invite-btn {
       margin: 20px auto 0;
@@ -210,125 +219,93 @@
       background-color: #e03e50;
     }
     .break { height: 20px; }
-        /* Invite button styled like nav elements */
-        .invite-btn {
-      margin: 20px auto 0;
-      display: block;
-      height: 47px;
-      padding: 10px 20px;
-      font-size: 16px;
-      color: #fff;
+    /* Socials Popup */
+    #linksPopup {
+      display: none; /* Changed to none */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+    }
+    /* Popup box styled like other content areas for Socials */
+    #linksPopup .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 40%;
+      background-color: #2e2e3e;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+      z-index: 1001;
+      max-height: 90%;
+      overflow-y: auto;
+    }
+    /* Close button styled to match design for Socials */
+    #linksPopup .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
       background-color: #ff4757;
       border: none;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      color: #fff;
+      font-size: 1.2em;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
       cursor: pointer;
-      transition: background 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    .invite-btn:hover {
-      background-color: #e03e50;
+    /* Popup title for Socials */
+    #linksPopup .popup-title {
+      text-align: center;
+      font-size: 1.8em;
+      color: #ffa502;
+      margin-bottom: 1rem;
     }
-    .break { height: 20px; }
-    
-/* Socials Popup */
-#linksPopup {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-}
-
-/* Popup box styled like other content areas */
-#linksPopup .popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 40%;
-  background-color: #2e2e3e;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-  z-index: 1001;
-  max-height: 90%;
-  overflow-y: auto;
-}
-
-/* Close button styled to match design */
-#linksPopup .close-btn {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: #ff4757;
-  border: none;
-  color: #fff;
-  font-size: 1.2em;
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Popup title */
-#linksPopup .popup-title {
-  text-align: center;
-  font-size: 1.8em;
-  color: #ffa502;
-  margin-bottom: 1rem;
-}
-
-/* Social media icons container */
-#linksPopup .social-links {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-}
-
-/* Social media icons */
-#linksPopup .social-links a img {
-  width: 40px;
-  height: auto;
-  transition: transform 0.3s;
-}
-
-#linksPopup .social-links a img:hover {
-  transform: scale(1.1);
-}
-
-
-
+    /* Social media icons container */
+    #linksPopup .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+    /* Social media icons */
+    #linksPopup .social-links a img {
+      width: 40px;
+      height: auto;
+      transition: transform 0.3s;
+    }
+    #linksPopup .social-links a img:hover {
+      transform: scale(1.1);
+    }
   </style>
 </head>
 <body>
-
   <header>
     <h1>Kai's Website</h1>
   </header>
-
   <div class="container">
     <div class="main-content">
       <h2>Welcome to Kai's World of Editing!</h2>
       <div class="content-card">
-        <h3>About Kai</h3>
+        <h3>About Me</h3>
         <p>I’m Kai, an anime video editor who loves crafting smooth transitions and dynamic edits. I mainly edit with CapCut but will be switching to After Effects soon. Anime and editing are my biggest passions—I’m always looking for ways to improve and take my work to the next level. When I’m not editing, I’m probably enjoying some Alfredo or hanging out in mischievous acts.</p>
       </div>
       <div class="content-card">
-        <h3>Content Highlights</h3>
-        <p>From top 10 anime lists to deep dives into classic series, Kai's content has something for every anime lover. Don't miss the popular "Anime Explained" series for in-depth analyses.</p>
+        <h3>My Editing Style</h3>
+        <p>I create anime music videos (AMVs) that match the vibe of the anime with smooth transitions and effects. I also do character edits, highlighting specific characters and their best moments. I love reworking classic anime scenes with clean effects and pacing, and I focus on smooth, impactful transitions that keep the flow. Additionally, I explore different anime themes, capturing their essence visually in my edits.</p>
       </div>
       <div class="content-card">
         <h3>Join the Community</h3>
-        <p>Subscribe to the channel, comment on videos, and join live streams to become part of the growing anime family. Kai loves interacting with fellow fans!</p>
+        <p>Subscribe to the channel, comment on videos, and join live streams to become part of the growing editing family.</p>
       </div>
     </div>
-
     <div class="sidebar">
       <h3>Latest Videos</h3>
       <div class="video-item">
@@ -345,39 +322,28 @@
       </div>
     </div>
   </div>
-
-  <nav>
-    <a href="#about">About</a>
-    <a href="#content">Content</a>
-    <a href="#contact">Contact</a>
-    <!-- Credits link opens the popup -->
-    <a href="javascript:void(0);" onclick="document.getElementById('creditsPopup').style.display = 'block'">Credits</a>
-    <a href="javascript:void(0);" onclick="document.getElementById('linksPopup').style.display = 'block'">Socials</a>
-  </nav>
-
-  <footer>
-    &copy; 2025 KaiEditzAMV. All rights reserved.
+  <footer style="text-align: center;">
+    <nav>
+      <a href="#about">About</a>
+      <a href="youtube.com/@KaiEditzAMV">Content</a>
+      <a href="https://discord.com/UtzrtbYfu2">Contact</a>
+      <!-- Credits link opens the popup -->
+      <a href="javascript:void(0);" onclick="document.getElementById('creditsPopup').style.display = 'block'">Credits</a>
+      <a href="javascript:void(0);" onclick="document.getElementById('linksPopup').style.display = 'block'">Socials</a>
+    </nav>
   </footer>
-
   <!-- Credits Popup -->
   <div id="creditsPopup">
     <div class="popup">
       <button class="close-btn" onclick="document.getElementById('creditsPopup').style.display = 'none'">✖</button>
       <h2 class="popup-title">Website Credits</h2>
       <p class="popup-content">
-      This website was made by mystic (mysticccs0 on Discord) for @KaiEditzAMV. 
+        This website was made by mystic (mysticccs0 on Discord) for @KaiEditzAMV.
       </p>
-     <!-- <div class="break"></div>
-      <div class="break"></div> -->
-      <p class="popup-content" style="color: hsl(36, 100%, 84%);">
-        Come join the server!
-      </p>
-      <button class="invite-btn" onclick="window.open('wip')">KaiEditzAMV Discord Server</button>
     </div>
   </div>
-
   <script>
-    // Optional: clicking outside the popup closes it
+    // Clicking outside the Credits popup closes it
     window.addEventListener('click', function(event) {
       var popupContainer = document.getElementById('creditsPopup');
       if (event.target === popupContainer) {
@@ -385,29 +351,45 @@
       }
     });
   </script>
-<!-- Social Links Popup -->
-<div id="linksPopup">
-  <div class="popup">
-    <button class="close-btn" onclick="document.getElementById('linksPopup').style.display = 'none'">✖</button>
-    <h2 class="popup-title">Follow Kai's Socials!</h2>
-    <p class="popup-content">
-      Stay connected and updated with Kai's latest content through social media!
-    </p>
-    <div class="social-links">
-      <!-- Add your social links here -->
-      <a href="https://www.instagram.com" target="_blank"><img src="https://via.placeholder.com/40x40?text=IG" alt="Instagram"></a>
-      <a href="https://www.twitter.com" target="_blank"><img src="https://via.placeholder.com/40x40?text=TW" alt="Twitter"></a>
-      <a href="https://www.facebook.com" target="_blank"><img src="https://via.placeholder.com/40x40?text=FB" alt="Facebook"></a>
+  <!-- Social Links Popup -->
+  <div id="linksPopup">
+    <div class="popup">
+      <button class="close-btn" onclick="document.getElementById('linksPopup').style.display = 'none'">✖</button>
+      <h2 class="popup-title">Follow Kai's Socials!</h2>
+      <p class="popup-content">
+        Stay connected and updated with Kai's latest content through social media!
+      </p>
+      <div class="social-links">
+        <!-- Add your social links here -->
+        <a href="https://www.youtube.com/@KaiEditzAMV" target="_blank">
+          <img src="KaiEditzAMV.jpg" alt="@KaiEditzAMV" style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 5px solid #1e1e2f; transition: transform 0.3s;">
+        </a>
+        <a href="https://www.youtube.com/@kaimemez" target="_blank">
+          <img src="KaiMemes.jpg" alt="@KaiMemeZ" style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 3px solid #1e1e2f; transition: transform 0.3s;">
+        </a>
+        <a href="https://www.youtube.com/@kaiaitracks" target="_blank">
+          <img src="KaiAITracks.jpg" alt="@KaiAITracks" style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 5px solid #1e1e2f; transition: transform 0.3s;">
+        </a>
+        <a href="https://www.tiktok.com/@kaieditz999" target="_blank">
+          <img src="tiktok.jpg" alt="@kaieditz999 (Tiktok)" style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 5px solid #1e1e2f; transition: transform 0.3s;">
+        </a>
+        <a href="https://discord.com/UtzrtbYfu2" target="_blank">
+          <img src="discord.jpg" alt="Kai's Discord Server" style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 5px solid #1e1e2f; transition: transform 0.3s;">
+        </a>
+        <a href="https://www.tiktok.com/@kaieditz999" target="_blank">
+          <img src="fiverr.png" alt="Fiverr" style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 5px solid #1e1e2f; transition: transform 0.3s;">
+        </a>
+      </div>
+      <script>
+        // Clicking outside the Socials popup closes it
+        window.addEventListener('click', function(event) {
+          var popupContainer = document.getElementById('linksPopup');
+          if (event.target === popupContainer) {
+            popupContainer.style.display = 'none';
+          }
+        });
+      </script>
     </div>
-<script>
-      window.addEventListener('click', function(event) {
-        var popupContainer = document.getElementById('linksPopup');
-        if (event.target === popupContainer) {
-          popupContainer.style.display = 'none';
-        }
-      });
-</script>
   </div>
-</div>
 </body>
 </html>
