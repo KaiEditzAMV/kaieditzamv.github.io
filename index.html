@@ -9,26 +9,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <script type="module" src="https://cdn.forge.tylertech.com/v1/libs/@tylertech/forge@3.4.0/index.js"></script>
   <script>
-      // Function to detect if the user is on a mobile device
-      function isMobileDevice() {
-          return /Mobi|Android/i.test(navigator.userAgent);
+    (function() {
+      // Detect mobile or tablet using user agent
+      var mobileRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i; {
+      if (mobileRegex.test(navigator.userAgent)) {
+          // Replace the URL with your mobile site address
+          window.location.href = "indexmobile.html" + window.location.pathname;
+        }
       }
-  
-
-      // Redirect logic
-      window.onload = function() {
-          const currentPath = window.location.pathname;
-  
-          console.log("Current Path:", currentPath);
-          console.log("Is Mobile Device:", isMobileDevice());
-          console.log("Is Tablet or Desktop:", isTabletOrDesktop());
-  
-          if (isMobileDevice() && currentPath.endsWith('index.html')) {
-              // If on mobile and currently on index.html, redirect to index-mobile.html
-              console.log("Redirecting to indexmobile.html");
-              window.location.href = 'indexmobile.html'; 
-            }
-      };
+    })();
   </script>
   <style>
     /* Global Styles */
