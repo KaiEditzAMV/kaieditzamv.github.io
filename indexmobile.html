@@ -1,4 +1,3 @@
-<!--This website is the KaiEditz0 website by MysticCCS for KaiEditz0-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,37 +6,6 @@
   <title>Kai's Website</title>
   <link rel="icon" href="KaiEditzAMV.jpg">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <script type="module" src="https://cdn.forge.tylertech.com/v1/libs/@tylertech/forge@3.4.0/index.js"></script>
-  <script>
-      // Function to detect if the user is on a mobile device
-      function isMobileDevice() {
-          return /Mobi|Android/i.test(navigator.userAgent);
-      }
-  
-      // Function to detect if the user is on a tablet or desktop
-      function isTabletOrDesktop() {
-          return !isMobileDevice() || (window.innerWidth >= 768); // Assuming tablets have a width of 768px or more
-      }
-  
-      // Redirect logic
-      window.onload = function() {
-          const currentPath = window.location.pathname;
-  
-          console.log("Current Path:", currentPath);
-          console.log("Is Mobile Device:", isMobileDevice());
-          console.log("Is Tablet or Desktop:", isTabletOrDesktop());
-  
-          if (isMobileDevice() && currentPath.endsWith('index.html')) {
-              // If on mobile and currently on index.html, redirect to index-mobile.html
-              console.log("Redirecting to index-mobile.html");
-              window.location.href = 'index-mobile.html';
-          } else if (isTabletOrDesktop() && currentPath.endsWith('index-mobile.html')) {
-              // If on tablet/desktop and currently on index-mobile.html, redirect to index.html
-              console.log("Redirecting to index.html");
-              window.location.href = 'index.html';
-          }
-      };
-  </script>
   <style>
     /* Global Styles */
     * {
@@ -253,7 +221,7 @@
     .break { height: 20px; }
     /* Socials Popup */
     #linksPopup {
-      display: none; /* Changed to none */
+      display: none;
       position: fixed;
       top: 0;
       left: 0;
@@ -316,6 +284,36 @@
     #linksPopup .social-links a img:hover {
       transform: scale(1.1);
     }
+    
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      /* Stack columns vertically */
+      .container {
+        flex-direction: column;
+        margin: 1rem;
+      }
+      .main-content, .sidebar {
+        margin: 1rem 0;
+      }
+      /* Adjust header text size */
+      header h1 {
+        font-size: 2.5rem;
+      }
+      /* Center and stack nav links */
+      nav {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      /* Make popup boxes wider on mobile */
+      .popup {
+        width: 80%;
+        padding: 1rem;
+      }
+      /* Optional: Adjust footer font size */
+      footer {
+        font-size: 0.9rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -360,7 +358,6 @@
       <a href="htps://youtube.com/@KaiEditzAMV">Content</a>
       <a href="https://discord.gg/UtzrtbYfu2">Contact</a>
       <a href="https://www.fiverr.com/s/yvmq8W6">Want an edit?</a>
-      <!-- Credits link opens the popup -->
       <a href="javascript:void(0);" onclick="document.getElementById('creditsPopup').style.display = 'block'">Credits</a>
       <a href="javascript:void(0);" onclick="document.getElementById('linksPopup').style.display = 'block'">Socials</a>
     </nav>
@@ -371,55 +368,55 @@
       <button class="close-btn" onclick="document.getElementById('creditsPopup').style.display = 'none'">✖</button>
       <h2 class="popup-title">Website Credits</h2>
       <p class="popup-content">
-      Made with ❤️ by MysticCCS (mysticccs0 on Discord).
-      </p>
-    </div>
+        Made with ❤️ by MysticCCS (mysticccs0 on Discord).
+    </p>
   </div>
-  <script>
-    // Clicking outside the Credits popup closes it
-    window.addEventListener('click', function(event) {
-      var popupContainer = document.getElementById('creditsPopup');
-      if (event.target === popupContainer) {
-        popupContainer.style.display = 'none';
-      }
-    });
-  </script>
-  <!-- Social Links Popup -->
-  <div id="linksPopup">
-    <div class="popup">
-      <button class="close-btn" onclick="document.getElementById('linksPopup').style.display = 'none'">✖</button>
-      <h2 class="popup-title">Follow Kai's Socials!</h2>
-      <p class="popup-content">
-        Stay connected and updated with Kai's latest content through social media!
-      </p>
-      <div class="social-links">
-        <!-- Add your social links here -->
-        <a href="https://www.youtube.com/@KaiEditzAMV" target="_blank">
-          <img src="KaiEditzAMV.jpg" alt="@KaiEditzAMV" style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 5px solid #1e1e2f; transition: transform 0.3s;">
-        </a>
-        <a href="https://www.youtube.com/@kaimemez" target="_blank">
-          <img src="KaiMemes.jpg" alt="@KaiMemeZ" style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 3px solid #1e1e2f; transition: transform 0.3s;">
-        </a>
-        <a href="https://www.youtube.com/@kaiaitracks" target="_blank">
-          <img src="KaiAITracks.jpg" alt="@KaiAITracks" style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 5px solid #1e1e2f; transition: transform 0.3s;">
-        </a>
-        <a href="https://www.tiktok.com/@kaieditz999" target="_blank">
-          <img src="tiktok.jpg" alt="@kaieditz999 (Tiktok)" style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 5px solid #1e1e2f; transition: transform 0.3s;">
-        </a>
-        <a href="https://discord.gg/UtzrtbYfu2" target="_blank">
-          <img src="discord.jpg" alt="Kai's Discord Server" style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 5px solid #1e1e2f; transition: transform 0.3s;">
-        </a>
-      </div>
-      <script>
-        // Clicking outside the Socials popup closes it
-        window.addEventListener('click', function(event) {
-          var popupContainer = document.getElementById('linksPopup');
-          if (event.target === popupContainer) {
-            popupContainer.style.display = 'none';
-          }
-        });
-      </script>
+</div>
+<script>
+  // Clicking outside the Credits popup closes it
+  window.addEventListener('click', function(event) {
+    var popupContainer = document.getElementById('creditsPopup');
+    if (event.target === popupContainer) {
+      popupContainer.style.display = 'none';
+    }
+  });
+</script>
+<!-- Social Links Popup -->
+<div id="linksPopup">
+  <div class="popup">
+    <button class="close-btn" onclick="document.getElementById('linksPopup').style.display = 'none'">✖</button>
+    <h2 class="popup-title">Follow Kai's Socials!</h2>
+    <p class="popup-content">
+      Stay connected and updated with Kai's latest content through social media!
+    </p>
+    <div class="social-links">
+      <!-- Add your social links here -->
+      <a href="https://www.youtube.com/@KaiEditzAMV" target="_blank">
+        <img src="KaiEditzAMV.jpg" alt="@KaiEditzAMV" style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 5px solid #1e1e2f; transition: transform 0.3s;">
+      </a>
+      <a href="https://www.youtube.com/@kaimemez" target="_blank">
+        <img src="KaiMemes.jpg" alt="@KaiMemeZ" style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 3px solid #1e1e2f; transition: transform 0.3s;">
+      </a>
+      <a href="https://www.youtube.com/@kaiaitracks" target="_blank">
+        <img src="KaiAITracks.jpg" alt="@KaiAITracks" style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 5px solid #1e1e2f; transition: transform 0.3s;">
+      </a>
+      <a href="https://www.tiktok.com/@kaieditz999" target="_blank">
+        <img src="tiktok.jpg" alt="@kaieditz999 (Tiktok)" style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 5px solid #1e1e2f; transition: transform 0.3s;">
+      </a>
+      <a href="https://discord.gg/UtzrtbYfu2" target="_blank">
+        <img src="discord.jpg" alt="Kai's Discord Server" style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 5px solid #1e1e2f; transition: transform 0.3s;">
+      </a>
     </div>
+    <script>
+      // Clicking outside the Socials popup closes it
+      window.addEventListener('click', function(event) {
+        var popupContainer = document.getElementById('linksPopup');
+        if (event.target === popupContainer) {
+          popupContainer.style.display = 'none';
+        }
+      });
+    </script>
   </div>
+</div>
 </body>
 </html>
