@@ -14,11 +14,7 @@
           return /Mobi|Android/i.test(navigator.userAgent);
       }
   
-      // Function to detect if the user is on a tablet or desktop
-      function isTabletOrDesktop() {
-          return !isMobileDevice() || (window.innerWidth >= 768); // Assuming tablets have a width of 768px or more
-      }
-  
+
       // Redirect logic
       window.onload = function() {
           const currentPath = window.location.pathname;
@@ -29,12 +25,9 @@
   
           if (isMobileDevice() && currentPath.endsWith('index.html')) {
               // If on mobile and currently on index.html, redirect to index-mobile.html
-              console.log("Redirecting to index-mobile.html");
-              window.location.href = 'index-mobile.html';
+              console.log("Redirecting to indexmobile.html");
+              window.location.href = 'indexmobile.html';
           } else if (isTabletOrDesktop() && currentPath.endsWith('index-mobile.html')) {
-              // If on tablet/desktop and currently on index-mobile.html, redirect to index.html
-              console.log("Redirecting to index.html");
-              window.location.href = 'index.html';
           }
       };
   </script>
