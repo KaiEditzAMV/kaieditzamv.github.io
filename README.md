@@ -1,13 +1,13 @@
 # Kai's Website
 ![Kai's Website](./KaiEditzAMV.jpg)
 
-Welcome to the official repository for the Kai Anime Editor website—a dedicated online hub where anime fans and creators can edit, share, and celebrate anime content in a uniquely tailored environment.
+Welcome to the official repository for the Kai's Website containing information about him and his channels.
 
 ---
 
 ## Overview
 
-Kai Anime Editor isn’t just a tool; it’s an entire ecosystem built to empower creativity. Our website offers a sleek, intuitive interface alongside powerful anime-specific editing features. Whether you’re refining your favorite scenes or creating original content, Kai Anime Editor makes it easy to transform your ideas into stunning visuals.
+Kai's Webstie is built to inspire. Our website offers a sleek, intuitive interface alongside powerful editing guides (W.I.P). Whether you’re refining your favorite scenes or creating original content, Kai Anime Editor makes it easy to transform your ideas into stunning visuals with our guides which are coming doon!
 
 ---
 
@@ -20,7 +20,7 @@ Kai Anime Editor isn’t just a tool; it’s an entire ecosystem built to empowe
 
 ---
 
-## Live Demo
+## Visit the site
 
 Experience Kai's Website live at:  
 kaieditzamv.github.io
