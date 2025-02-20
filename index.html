@@ -1,4 +1,4 @@
-<!--This website is the KaiEditz0 website by MysticCCS for KaiEditz0-->
+<!-- Updated index.html with Easter Egg Game in Credits Popup -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,46 +7,27 @@
   <title>Kai's Website</title>
   <link rel="icon" href="KaiEditzAMV.jpg">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <script type="module" src="https://cdn.forge.tylertech.com/v1/libs/@tylertech/forge@3.4.0/index.js"></script>
-  <script>
-    (function() {
-      // Detect mobile or tablet using user agent
-      var mobileRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i; {
-      if (mobileRegex.test(navigator.userAgent)) {
-          // Replace the URL with your mobile site address
-          window.location.href = "indexmobile.html" + window.location.pathname;
-        }
-      }
-    })();
-  </script>
   <style>
     /* Global Styles */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Poppins', sans-serif;
       background-color: #1e1e2f;
       color: #fff;
-      background-image: url('bg-main.jpg'); /* Replace with your image path */
+      background-image: url('bg-main.jpg');
       background-size: cover;
       background-position: center;
     }
     header {
-      background-image: url(bg.png.png);
+      background-image: url(bg-header.png);
       background-repeat: no-repeat;
       background-position: center;
       background-size: cover;
-      padding: 2rem;
+      padding: 1rem;
       text-align: center;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     }
-    header h1 {
-      font-size: 3rem;
-      letter-spacing: 2px;
-    }
+    header h1 { font-size: 3rem; letter-spacing: 2px; }
     nav {
       display: flex;
       justify-content: center;
@@ -61,31 +42,22 @@
       border-radius: 8px;
       transition: background 0.3s;
     }
-    nav a:hover {
-      background-color: #ff4757;
-    }
-    .container {
-      display: flex;
-      margin: 2rem;
-    }
+    nav a:hover { background-color: #ff4757; }
+    .container { display: flex; margin: 2rem; }
     .main-content {
       flex: 3;
-      position: relative; /* Creates a new stacking context */
-      background-image: url('bg-maincontent.png'); /* Replace with your image path */
+      position: relative;
+      background-image: url('bg-maincontent.png');
       background-size: cover;
       background-position: center;
-      background-color: #2e2e3e; /* Fallback color */
+      background-color: #2e2e3e;
       border-radius: 12px;
       padding: 2rem;
       margin-right: 2rem;
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
       z-index: 1;
     }
-    .main-content h2 {
-      margin-bottom: 1rem;
-      border-bottom: 2px solid #ffa502;
-      padding-bottom: 0.5rem;
-    }
+    .main-content h2 { margin-bottom: 1rem; border-bottom: 2px solid #ffa502; padding-bottom: 0.5rem; }
     .content-card {
       background-color: #3e3e5e;
       border-radius: 10px;
@@ -93,27 +65,19 @@
       padding: 1rem;
       transition: transform 0.3s;
     }
-    .content-card:hover {
-      transform: translateY(-5px);
-      cursor: pointer;
-    }
-    .content-card h3 {
-      margin-bottom: 0.5rem;
-      color: #ffa502;
-    }
-    .content-card p {
-      font-size: 0.95rem;
-      line-height: 1.4;
-    }
+    .content-card:hover { transform: translateY(-5px); cursor: pointer; }
+    .content-card h3 { margin-bottom: 0.5rem; color: #ffa502; }
+    .content-card p { font-size: 0.95rem; line-height: 1.4; }
     .sidebar {
       flex: 1;
       background-color: #3e3e5e;
-      background-image: url('bgforlatestvids.jpg'); /* Replace with your image path */
+      background-image: url('bg-latest-vids.jpg');
       background-size: cover;
       background-position: center;
       border-radius: 12px;
       padding: 2rem;
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+      justify-content: center;
     }
     .sidebar h3 {
       margin-bottom: 1rem;
@@ -125,18 +89,9 @@
       cursor: pointer;
       transition: transform 0.3s;
     }
-    .video-item:hover {
-      transform: translateY(-5px);
-    }
-    .video-item img {
-      width: 100%;
-      border-radius: 8px;
-      margin-bottom: 0.5rem;
-    }
-    .video-item h4 {
-      font-size: 0.9rem;
-      color: #ffa502;
-    }
+    .video-item:hover { transform: translateY(-5px); }
+    .video-item img { width: 100%; border-radius: 8px; margin-bottom: 0.5rem; }
+    .video-item h4 { font-size: 0.9rem; color: #ffa502; }
     footer {
       text-align: center;
       padding: 1rem 0;
@@ -146,6 +101,7 @@
       position: fixed;
       bottom: 0;
       width: 100%;
+      z-index: 2;
     }
     /* Popup overlay */
     #creditsPopup {
@@ -166,7 +122,7 @@
       transform: translate(-50%, -50%);
       width: 40%;
       background-color: #2e2e3e;
-      background-image: url('bg-popup.jpg'); /* Replace with your image path */
+      background-image: url('bg-popup.jpg');
       background-size: cover;
       background-position: center;
       padding: 2rem;
@@ -193,6 +149,9 @@
       align-items: center;
       justify-content: center;
     }
+   .close-btn:hover {
+    box-shadow: 0 0 10px 5px rgba(255, 71, 87, 0.8);
+   }
     /* Popup text styles matching other elements */
     .popup-title {
       text-align: center;
@@ -228,13 +187,11 @@
       cursor: pointer;
       transition: background 0.3s ease;
     }
-    .invite-btn:hover {
-      background-color: #e03e50;
-    }
+    .invite-btn:hover { background-color: #e03e50; }
     .break { height: 20px; }
     /* Socials Popup */
     #linksPopup {
-      display: none; /* Changed to none */
+      display: none;
       position: fixed;
       top: 0;
       left: 0;
@@ -243,7 +200,6 @@
       background: rgba(0, 0, 0, 0.5);
       z-index: 1000;
     }
-    /* Popup box styled like other content areas for Socials */
     #linksPopup .popup {
       position: fixed;
       top: 50%;
@@ -258,7 +214,6 @@
       max-height: 90%;
       overflow-y: auto;
     }
-    /* Close button styled to match design for Socials */
     #linksPopup .close-btn {
       position: absolute;
       top: 20px;
@@ -275,27 +230,37 @@
       align-items: center;
       justify-content: center;
     }
-    /* Popup title for Socials */
+    #linksPopup .close-btn:hover {
+    box-shadow: 0 0 10px 5px rgba(255, 71, 87, 0.8);
+   }
     #linksPopup .popup-title {
       text-align: center;
       font-size: 1.8em;
       color: #ffa502;
       margin-bottom: 1rem;
     }
-    /* Social media icons container */
     #linksPopup .social-links {
       display: flex;
       justify-content: center;
       gap: 1rem;
     }
-    /* Social media icons */
     #linksPopup .social-links a img {
       width: 40px;
       height: auto;
       transition: transform 0.3s;
     }
-    #linksPopup .social-links a img:hover {
-      transform: scale(1.1);
+    #linksPopup .social-links a img:hover { transform: scale(1.1); }
+    .video-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .video-container iframe {
+      width: 400px;
+      height: 175px;
+      justify-items: center;
+      justify-content: center;
+      transition: transform 0.3s;
     }
   </style>
 </head>
@@ -315,29 +280,54 @@
         <p>I create anime music videos (AMVs) that match the vibe of the anime with smooth transitions and effects. I also do character edits, highlighting specific characters and their best moments. I love reworking classic anime scenes with clean effects and pacing, and I focus on smooth, impactful transitions that keep the flow. Additionally, I explore different anime themes, capturing their essence visually in my edits.</p>
       </div>
       <div class="content-card">
+        <h3>My Future Goals</h3>
+        <p>
+          •  Learn advanced animation techniques and integrate them into my edits and videos.
+          <br>
+          •  Get better at After Effects and improve the quality of my AMVs and montages.
+          <br>
+          •  Explore the world of 3D animation and start creating immersive and visually stunning pieces.
+          <br>
+          •  Work with other talented creators to collaborate on exciting projects and expand my network in the industry.
+          <br>
+          •  Learn more about design and IT to combine creativity with technology, and potentially work in the tech/design industry.
+          <br>
+      </p>
+      </div>
+     <!-- <div class="content-card">
         <h3>Join the Community</h3>
         <p>Subscribe to the channel, comment on videos, and join live streams to become part of the growing editing family.</p>
-      </div>
-    </div>
+      </div> -->
+    </div> 
     <div class="sidebar">
       <h3>Latest Videos</h3>
-      <div class="video-item">
-        <img src="https://via.placeholder.com/300x180" alt="Video Thumbnail">
-        <h4>Top 5 Anime to Watch This Season</h4>
-      </div>
-      <div class="video-item">
-        <img src="https://via.placeholder.com/300x180" alt="Video Thumbnail">
-        <h4>Exploring the World of One Piece</h4>
-      </div>
-      <div class="video-item">
-        <img src="https://via.placeholder.com/300x180" alt="Video Thumbnail">
-        <h4>The Most Emotional Anime Moments</h4>
+      <div class="video-container" id="videoList">
       </div>
     </div>
   </div>
+  <script>
+    const API_KEY = 'AIzaSyB1QyukyZw2jNdqxgKIdaiJS0k0GxzUhl4';
+    const CHANNEL_ID = 'UCevCpDPeubbg8xAdNeIQEAA';
+    const MAX_RESULTS = 3;
+    async function fetchVideos() {
+        const response = await fetch(`https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=id&order=date&maxResults=${MAX_RESULTS}`);
+        const data = await response.json();
+        const videoContainer = document.getElementById("videoList");
+        data.items.forEach(video => {
+            if (video.id.videoId) {
+                const videoFrame = document.createElement("iframe");
+                videoFrame.src = `https://www.youtube.com/embed/${video.id.videoId}`;
+                videoFrame.allowFullscreen = true;
+                videoFrame.style.borderRadius = '15px';
+                videoFrame.style.border = '5px solid #1e1e2f';
+                videoContainer.appendChild(videoFrame);
+            }
+        });
+    }
+    fetchVideos();
+  </script>
   <footer style="text-align: center;">
     <nav>
-      <a href="#about">About</a>
       <a href="htps://youtube.com/@KaiEditzAMV">Content</a>
       <a href="https://discord.gg/UtzrtbYfu2">Contact</a>
       <a href="https://www.fiverr.com/s/yvmq8W6">Want an edit?</a>
@@ -346,14 +336,19 @@
       <a href="javascript:void(0);" onclick="document.getElementById('linksPopup').style.display = 'block'">Socials</a>
     </nav>
   </footer>
-  <!-- Credits Popup -->
+  <!-- Credits Popup with Easter Egg Game -->
   <div id="creditsPopup">
     <div class="popup">
-      <button class="close-btn" onclick="document.getElementById('creditsPopup').style.display = 'none'">✖</button>
-      <h2 class="popup-title">Website Credits</h2>
-      <p class="popup-content">
-      Made with ❤️ by MysticCCS (mysticccs0 on Discord).
-      </p>
+      <button class="close-btn" onclick="document.getElementById('creditsPopup').style.display = 'none'"; onclick="document.getElementById('easterEggGame').style.display = 'none'">✖</button>
+      <div id="creditsContent">
+        <h2 class="popup-title">Website Credits</h2>
+        <p class="popup-content">Made with ❤️ by MysticCCS (mysticccs0 on Discord).</p>
+        <button class="invite-btn" onclick="startEasterEggGame()">Cool Button</button>
+      </div>
+      <div id="easterEggGame" style="display: none;">
+        <canvas id="gameCanvas" width="300" height="200" style="background: #000; display: block; margin: auto;"></canvas>
+        <p id="gameScore" style="text-align: center; color: #fff;">Score: 0</p>
+      </div>
     </div>
   </div>
   <script>
@@ -374,7 +369,6 @@
         Stay connected and updated with Kai's latest content through social media!
       </p>
       <div class="social-links">
-        <!-- Add your social links here -->
         <a href="https://www.youtube.com/@KaiEditzAMV" target="_blank">
           <img src="KaiEditzAMV.jpg" alt="@KaiEditzAMV" style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 5px solid #1e1e2f; transition: transform 0.3s;">
         </a>
@@ -392,7 +386,6 @@
         </a>
       </div>
       <script>
-        // Clicking outside the Socials popup closes it
         window.addEventListener('click', function(event) {
           var popupContainer = document.getElementById('linksPopup');
           if (event.target === popupContainer) {
@@ -402,5 +395,64 @@
       </script>
     </div>
   </div>
+  <!-- Easter Egg Game Script -->
+  <script>
+    function startEasterEggGame() {
+      // Hide the original credits content and show the game area
+      document.getElementById('creditsContent').style.display = 'none';
+      document.getElementById('easterEggGame').style.display = 'block';
+      initGame();
+    }
+    
+    let score = 0;
+    let circle = { x: 0, y: 0, radius: 20 };
+    function initGame() {
+      score = 0;
+      updateScore();
+      const canvas = document.getElementById('gameCanvas');
+      const ctx = canvas.getContext('2d');
+      placeCircle(canvas);
+      drawCircle(ctx);
+      canvas.addEventListener('click', canvasClickHandler);
+    }
+    function updateScore() {
+      document.getElementById('gameScore').innerText = 'Score: ' + score;
+    }
+    function placeCircle(canvas) {
+      // Position the circle randomly within the canvas bounds
+      circle.x = Math.random() * (canvas.width - 2 * circle.radius) + circle.radius;
+      circle.y = Math.random() * (canvas.height - 2 * circle.radius) + circle.radius;
+    }
+    function drawCircle(ctx) {
+      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+      ctx.fillStyle = '#ffa502';
+      ctx.beginPath();
+      ctx.arc(circle.x, circle.y, circle.radius, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    function canvasClickHandler(event) {
+      const canvas = event.target;
+      const rect = canvas.getBoundingClientRect();
+      const clickX = event.clientX - rect.left;
+      const clickY = event.clientY - rect.top;
+      const distance = Math.sqrt((clickX - circle.x) ** 2 + (clickY - circle.y) ** 2);
+      if (distance < circle.radius) {
+        score++;
+        updateScore();
+        placeCircle(canvas);
+        drawCircle(canvas.getContext('2d'));
+      }
+    }
+  </script>
+  <script>
+    // Clicking outside the Credits popup closes it and resets the Easter Egg game if active.
+    window.addEventListener('click', function(event) {
+      var popupContainer = document.getElementById('creditsPopup');
+      if (event.target === popupContainer) {
+        exitEasterEggGame(); // Resets the game and shows the credits content
+        popupContainer.style.display = 'none';
+      }
+    });
+    </script>
 </body>
 </html>
