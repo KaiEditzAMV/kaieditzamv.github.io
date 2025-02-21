@@ -17,7 +17,6 @@
       background-image: url('bg-main.jpg');
       background-size: cover;
       background-position: center;
-      background-repeat: no-repeat;
     }
     header {
       background-image: url(bg-header.png);
@@ -150,7 +149,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all ease-in-out 0.5s;
     }
    .close-btn:hover {
     box-shadow: 0 0 10px 5px rgba(255, 71, 87, 0.8);
@@ -186,15 +184,11 @@
       background-color: #ff4757;
       border: none;
       border-radius: 8px;
-     /* box-shadow: 0 4px 6px rgba(0,0,0,0.3); */
-      cursor: pointer; 
-      transition: ease-in-out 0.5s;
-      box-shadow: #e03e50;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      cursor: pointer;
+      transition: background 0.3s ease;
     }
-    .invite-btn:hover { 
-      box-shadow: 0 0 10px 5px rgba(255, 71, 87, 0.8);
-      transform: scale(1.2);
-    }
+    .invite-btn:hover { background-color: #e03e50; }
     .break { height: 20px; }
     /* Socials Popup */
     #linksPopup {
@@ -215,6 +209,7 @@
       transform: translate(-50%, -50%);
       width: 40%;
       background-color: #2e2e3e;
+      backdrop-filter: blur(10px);
       padding: 2rem;
       border-radius: 12px;
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
@@ -227,7 +222,6 @@
       top: 20px;
       right: 20px;
       background-color: #ff4757;
-      cursor: pointer;
       border: none;
       color: #fff;
       font-size: 1.2em;
@@ -382,7 +376,7 @@
           <img src="KaiEditzAMV.jpg" alt="@KaiEditzAMV" style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 5px solid #1e1e2f; transition: transform 0.3s;">
         </a>
         <a href="https://www.youtube.com/@kaimemez" target="_blank">
-          <img src="KaiMemes.jpg" alt="@KaiMemeZ" style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 5px solid #1e1e2f; transition: transform 0.3s;">
+          <img src="KaiMemes.jpg" alt="@KaiMemeZ" style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 3px solid #1e1e2f; transition: transform 0.3s;">
         </a>
         <a href="https://www.youtube.com/@kaiaitracks" target="_blank">
           <img src="KaiAITracks.jpg" alt="@KaiAITracks" style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 5px solid #1e1e2f; transition: transform 0.3s;">
