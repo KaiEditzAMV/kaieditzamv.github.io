@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!--adsense-->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5484266396833706"
+     crossorigin="anonymous"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rocket Dodge</title>
+
+    <!-- Pixel font from Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+            font-family: 'Press Start 2P', cursive;
+            color: #fff;
+        }
+
+        .game-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 1s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+
+        .rocket {
+            height: 80px;
+            width: 60px;
+            position: fixed;
+            top: 40vh;
+            left: 30vw;
+            z-index: 100;
+            image-rendering: pixelated;
+            filter: drop-shadow(0 0 8px #f06);
+            transition: transform 0.1s;
+            animation: hover 2s infinite alternate;
+            background-color: transparent;
+        }
+
+        .rocket-body {
+            position: absolute;
+            width: 40px;
+            height: 60px;
+            background-color: #f06;
+            border-radius: 20px 20px 0 0;
+            left: 10px;
+            top: 0;
+            border: 2px solid #fff;
+        }
+
+        .rocket-nose {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #ff0;
+            border-radius: 50% 50% 0 0;
+            left: 20px;
+            top: -10px;
+            border: 2px solid #fff;
+        }
+
+        .rocket-window {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background-color: #0af;
+            border-radius: 50%;
+            left: 22px;
+            top: 15px;
+            border: 2px solid #fff;
+            box-shadow: 0 0 5px #0ff inset;
+        }
+
+        .rocket-fin-left {
+            position: absolute;
+            width: 15px;
+            height: 25px;
+            background-color: #ff0;
+            left: -5px;
+            top: 40px;
+            transform: skew(-20deg);
+            border: 2px solid #fff;
+        }
+
+        .rocket-fin-right {
+            position: absolute;
+            width: 15px;
+            height: 25px;
+            background-color: #ff0;
+            right: -5px;
+            top: 40px;
+            transform: skew(20deg);
+            border: 2px solid #fff;
+        }
+
+        @keyframes hover {
+            0% { transform: translateY(0px) rotate(0deg); }
+            100% { transform: translateY(5px) rotate(2deg); }
+        }
+
+        .rocket.thrust {
+            animation: thrust 0.3s;
+        }
+
+        @keyframes thrust {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(-5deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+
+        .rocket-flame {
+            position: absolute;
+            bottom: -20px;
+            left: 20px;
+            width: 20px;
+            height: 25px;
+            background: linear-gradient(to bottom, #f06, #ff0);
+            clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+            animation: flame 0.1s infinite alternate;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .rocket-flame-inner {
+            position: absolute;
+            bottom: -15px;
+            left: 25px;
+            width: 10px;
+            height: 15px;
+            background: linear-gradient(to bottom, #fff, #0ff);
+            clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+            animation: flame-inner 0.05s infinite alternate;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        @keyframes flame {
+            0% { height: 20px; opacity: 0.8; }
+            100% { height: 30px; opacity: 1; }
+        }
+
+        @keyframes flame-inner {
+            0% { height: 10px; opacity: 0.8; }
+            100% { height: 20px; opacity: 1; }
+        }
+
+        .active-flame {
+            opacity: 1;
+        }
+
+        .asteroid {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            background-color: #555;
+            border-radius: 50%;
+            background-image: radial-gradient(circle, #777 10%, #555 60%, #333 100%);
+            box-shadow: inset 2px 2px 5px rgba(255,255,255,0.4), inset -2px -2px 5px rgba(0,0,0,0.4);
+            filter: drop-shadow(0 0 5px #555);
+            animation: rotate 4s linear infinite;
+        }
+
+        .asteroid::before {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-color: #444;
+            border-radius: 50%;
+            top: 10px;
+            left: 10px;
+        }
+
+        .asteroid::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #444;
+            border-radius: 50%;
+            bottom: 15px;
+            right: 15px;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .message {
+            position: fixed;
+            z-index: 200;
+            width: 100%;
+            text-align: center;
+            font-size: 24px;
+            color: #ff0;
+            text-shadow: 0 0 10px #f06, 0 0 20px #f06;
+            top: 30vh;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.9; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .hud {
+            position: fixed;
+            z-index: 150;
+            top: 10px;
+            left: 10px;
+            font-size: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .timer, .score {
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 2px solid #f06;
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 0 5px #f06; }
+            100% { box-shadow: 0 0 15px #f06, 0 0 20px #ff0; }
+        }
+
+        /* Game Over Screen */
+        .game-over {
+            position: fixed;
+            z-index: 190;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s;
+        }
+
+        .game-over.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .game-over h1 {
+            color: #f06;
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #f06, 0 0 20px #f06;
+            animation: gameOverText 2s infinite alternate;
+        }
+
+        @keyframes gameOverText {
+            0% { transform: scale(1); text-shadow: 0 0 10px #f06, 0 0 20px #f06; }
+            100% { transform: scale(1.05); text-shadow: 0 0 20px #f06, 0 0 30px #f06, 0 0 40px #ff0; }
+        }
+
+        .game-over .final-score {
+            color: #ff0;
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+
+        .restart-btn {
+            background-color: transparent;
+            color: #fff;
+            border: 2px solid #f06;
+            padding: 15px 30px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .restart-btn:hover {
+            background-color: #f06;
+            transform: scale(1.05);
+            box-shadow: 0 0 15px #f06;
+        }
+
+        /* Touch instructions for mobile */
+        .touch-instruction {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: #ff0;
+            font-size: 14px;
+            z-index: 150;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="game-container">
+        <div class="stars"></div>
+        <div class="rocket">
+            <div class="rocket-body"></div>
+            <div class="rocket-nose"></div>
+            <div class="rocket-window"></div>
+            <div class="rocket-fin-left"></div>
+            <div class="rocket-fin-right"></div>
+            <div class="rocket-flame"></div>
+            <div class="rocket-flame-inner"></div>
+        </div>
+        <div class="message">
+            PRESS SPACE OR TAP TO START
+        </div>
+        <div class="touch-instruction">
+            TAP ANYWHERE TO MAKE ROCKET JUMP
+        </div>
+        <div class="hud">
+            <div class="timer">TIME: <span class="timer-val">0</span>s</div>
+            <div class="score">SCORE: <span class="score-val">0</span></div>
+        </div>
+
+        <div class="game-over">
+            <h1>GAME OVER</h1>
+            <div class="final-score">SCORE: <span class="final-score-val">0</span></div>
+            <button class="restart-btn">RESTART</button>
+        </div>
+    </div>
+
+    <script>
+        // Create starfield background
+        const stars = document.querySelector('.stars');
+        for (let i = 0; i < 150; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            
+            // Random size between 1 and 3 pixels
+            const size = Math.random() * 2 + 1;
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            
+            // Random position
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.top = `${Math.random() * 100}%`;
+            
+            // Random animation delay
+            star.style.animationDelay = `${Math.random() * 2}s`;
+            
+            stars.appendChild(star);
+        }
+
+        // Game variables
+        const rocket = document.querySelector('.rocket');
+        const rocketFlame = document.querySelector('.rocket-flame');
+        const rocketFlameInner = document.querySelector('.rocket-flame-inner');
+        const message = document.querySelector('.message');
+        const touchInstruction = document.querySelector('.touch-instruction');
+        const timerVal = document.querySelector('.timer-val');
+        const scoreVal = document.querySelector('.score-val');
+        const finalScoreVal = document.querySelector('.final-score-val');
+        const gameOverScreen = document.querySelector('.game-over');
+        const restartBtn = document.querySelector('.restart-btn');
+        const closeBtn = document.querySelector('.close-btn');
+        const gameContainer = document.querySelector('.game-container');
+
+        // Physics settings - FIXED VALUES
+        let gravity = 0.12;               // Reduced gravity
+        let rocketVelocity = 0;
+        let rocketPosition = 40;          // vh
+        let gameState = 'Start';
+        let timeElapsed = 0;
+        let score = 0;
+        let asteroidSpeed = 1.5;           // Base speed
+        let asteroidSpawnRate = 8;     // Base spawn rate
+        let difficulty = 1;
+        let gameLoop;
+        let timeInterval;
+        let lastTime = 0;
+        let deltaTime = 0;
+        let asteroidCounter = 0;          // Counter to force asteroid spawning
+        let lastAsteroidTime = 0;         // Track when the last asteroid was spawned
+
+        // Check if device is mobile
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        
+        if (isMobile) {
+            message.textContent = "TAP TO START";
+        }
+
+        // Start the game when space is pressed
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault(); // Prevent page scrolling
+                if (gameState !== 'Play') {
+                    resetGame();
+                    startGame();
+                } else {
+                    jump();
+                }
+            }
+        });
+
+        // Touch controls for mobile - prevent default to avoid scrolling
+        document.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            if (gameState !== 'Play') {
+                resetGame();
+                startGame();
+            } else {
+                jump();
+            }
+        }, { passive: false });
+
+        // Click controls for desktop
+        gameContainer.addEventListener('click', (e) => {
+            // Don't trigger if clicking the restart, close, or back button
+            if (e.target !== restartBtn && e.target !== closeBtn && e.target !== backBtn) {
+                if (gameState !== 'Play') {
+                    resetGame();
+                    startGame();
+                } else {
+                    jump();
+                }
+            }
+        });
+
+        // Restart button
+        restartBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent the click from triggering the game container click
+            gameOverScreen.classList.remove('show');
+            resetGame();
+            startGame();
+        });
+
+
+        function jump() {
+            // Fixed jump velocity
+            rocketVelocity = -3;  // Jump strength
+            rocket.classList.add('thrust');
+            rocketFlame.classList.add('active-flame');
+            rocketFlameInner.classList.add('active-flame');
+            
+            // Remove the thrust animation after a short period
+            setTimeout(() => {
+                rocket.classList.remove('thrust');
+                
+                // Keep flame visible for a bit longer
+                setTimeout(() => {
+                    rocketFlame.classList.remove('active-flame');
+                    rocketFlameInner.classList.remove('active-flame');
+                }, 200);
+            }, 300);
+        }
+
+        function resetGame() {
+            // Clear any existing asteroids
+            document.querySelectorAll('.asteroid').forEach(a => a.remove());
+            
+            // Reset rocket position
+            rocketPosition = 40;
+            rocketVelocity = 0;
+            rocket.style.top = `${rocketPosition}vh`;
+            
+            // Reset game stats
+            timeElapsed = 0;
+            score = 0;
+            asteroidSpeed = 1.5;
+            difficulty = 1;
+            asteroidSpawnRate = 0.008;
+            asteroidCounter = 0;
+            lastAsteroidTime = 0;
+            
+            // Update display
+            timerVal.textContent = '0';
+            scoreVal.textContent = '0';
+            message.style.display = 'none';
+            
+            // Hide touch instruction for gameplay
+            if (isMobile) {
+                touchInstruction.style.opacity = '0.5';
+            }
+            
+            // Reset state
+            gameState = 'Play';
+            lastTime = performance.now();
+            
+            // Hide game over screen
+            gameOverScreen.classList.remove('show');
+        }
+
+        function startGame() {
+            // Force create first asteroid
+            createAsteroid();
+            lastAsteroidTime = performance.now();
+            
+            // Start time tracking
+            timeInterval = setInterval(() => {
+                if (gameState === 'Play') {
+                    timeElapsed++;
+                    timerVal.textContent = timeElapsed;
+                    
+                    // Increase difficulty over time
+                    if (timeElapsed % 15 === 0) {
+                        difficulty += 0.05;
+                        asteroidSpeed = 1.5 + (difficulty - 1) * 0.5;
+                        asteroidSpawnRate = 0.008 + (difficulty - 1) * 0.002;
+                    }
+                    
+                    // Update score
+                    score = timeElapsed * 10;
+                    scoreVal.textContent = score;
+                    
+                    // Force spawn an asteroid every 3 seconds if none have appeared
+                    asteroidCounter++;
+                    if (asteroidCounter >= 3) {
+                        createAsteroid();
+                        asteroidCounter = 0;
+                        lastAsteroidTime = performance.now();
+                    }
+                }
+            }, 1000);
+            
+            // Start game loop with time-based physics
+            lastTime = performance.now();
+            gameLoop = requestAnimationFrame(updateGame);
+        }
+
+        function updateGame(timestamp) {
+            if (gameState !== 'Play') {
+                return;
+            }
+            
+            // Calculate delta time for smooth physics
+            deltaTime = (timestamp - lastTime) / 16.67;  // Normalize to 60fps
+            lastTime = timestamp;
+            
+            // Apply gravity with delta time scaling
+            rocketVelocity += gravity * deltaTime;
+            rocketPosition += rocketVelocity * 0.1 * deltaTime;
+            rocket.style.top = `${rocketPosition}vh`;
+            
+            // Check boundaries
+            if (rocketPosition <= 0 || rocketPosition >= 90) {
+                gameOver();
+                return;
+            }
+            
+            // Check if it's been more than 3 seconds since the last asteroid
+            const currentTime = performance.now();
+            const timeSinceLastAsteroid = currentTime - lastAsteroidTime;
+            
+            // Generate asteroids with controlled spawn rate or force spawn after 3 seconds
+            if (Math.random() < asteroidSpawnRate * deltaTime || timeSinceLastAsteroid > 3000) {
+                createAsteroid();
+                asteroidCounter = 0; // Reset counter since we've spawned an asteroid
+                lastAsteroidTime = currentTime;
+            }
+            
+            // Move asteroids and check collisions
+            moveAsteroids(deltaTime);
+            
+            // Continue game loop
+            gameLoop = requestAnimationFrame(updateGame);
+        }
+
+        function createAsteroid() {
+            // Create asteroid element
+            const asteroid = document.createElement('div');
+            asteroid.classList.add('asteroid');
+            
+            // Random size - smaller average size
+            const size = Math.floor(Math.random() * 15) + 50;  // 35-60px range
+            asteroid.style.width = `${size}px`;
+            asteroid.style.height = `${size}px`;
+            
+            // Position at random height with more space for maneuvering
+            const posY = Math.floor(Math.random() * 75) + 1;  // 10-75vh range
+            asteroid.style.top = `${posY}vh`;
+            asteroid.style.left = '105vw';  // Start slightly off-screen
+            
+            // Random rotation speed
+            const rotationSpeed = Math.random() * 4 + 2;
+            asteroid.style.animation = `rotate ${rotationSpeed}s linear infinite`;
+            
+            // Store the asteroid's speed as a data attribute
+            // Add slight variation to asteroid speeds
+            const speedVariation = (Math.random() * 0.4) - 0.4;  // -0.2 to +0.2
+            asteroid.dataset.speed = asteroidSpeed + speedVariation;
+            
+            // Add to game
+            gameContainer.appendChild(asteroid);
+            
+            // Debug log - can be removed in production
+            console.log("Asteroid created at position:", posY, "vh with speed:", asteroidSpeed + speedVariation);
+        }
+
+        function moveAsteroids(deltaTime) {
+            const asteroids = document.querySelectorAll('.asteroid');
+            const rocketRect = rocket.getBoundingClientRect();
+            
+            asteroids.forEach(asteroid => {
+                // Get current position and individual speed
+                let left = parseFloat(asteroid.style.left) || 105; // Default if not set
+                const speed = parseFloat(asteroid.dataset.speed) || asteroidSpeed; // Default if not set
+                
+                // Move asteroid with delta time for consistent speed
+                left -= speed * deltaTime * 0.1;
+                asteroid.style.left = `${left}vw`;
+                
+                // Remove if off screen
+                if (left < -10) {
+                    asteroid.remove();
+                }
+                
+                // Improved collision detection with smaller hitbox
+                const asteroidRect = asteroid.getBoundingClientRect();
+                
+                // Create a slightly smaller hitbox for the rocket (70% of actual size)
+                const rocketHitbox = {
+                    left: rocketRect.left + rocketRect.width * 0.15,
+                    right: rocketRect.right - rocketRect.width * 0.15,
+                    top: rocketRect.top + rocketRect.height * 0.15,
+                    bottom: rocketRect.bottom - rocketRect.height * 0.15
+                };
+                
+                // Create a slightly smaller hitbox for the asteroid
+                const asteroidHitbox = {
+                    left: asteroidRect.left + asteroidRect.width * 0.15,
+                    right: asteroidRect.right - asteroidRect.width * 0.15,
+                    top: asteroidRect.top + asteroidRect.height * 0.15,
+                    bottom: asteroidRect.bottom - asteroidRect.height * 0.15
+                };
+                
+                if (
+                    rocketHitbox.left < asteroidHitbox.right &&
+                    rocketHitbox.right > asteroidHitbox.left &&
+                    rocketHitbox.top < asteroidHitbox.bottom &&
+                    rocketHitbox.bottom > asteroidHitbox.top
+                ) {
+                    gameOver();
+                }
+            });
+        }
+
+        function gameOver() {
+            gameState = 'End';
+            
+            // Stop game loop
+            cancelAnimationFrame(gameLoop);
+            clearInterval(timeInterval);
+            
+            // Update final score
+            finalScoreVal.textContent = score;
+            
+            // Show game over screen with animation
+            gameOverScreen.classList.add('show');
+        }
+
+        // Check if we're on mobile and show touch instruction
+        if (isMobile) {
+            touchInstruction.style.display = 'block';
+        } else {
+            touchInstruction.style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>

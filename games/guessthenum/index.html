@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the Number</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Start Screen -->
+    <div id="start-screen">
+        <h1>Guess the Number</h1>
+        <p class="subtitle">challenges</p>
+        
+        <div class="mode-container">
+            <div class="mode-card" id="easy-card" onclick="selectMode('easy')">
+                <div class="mode-title">
+                    <span class="difficulty-indicator" id="easy-indicator"></span>
+                    Easy
+                </div>
+                <p>Range: 1-50</p>
+                <p>Guesses: 8</p>
+                <p>Time: 45s</p>
+            </div>
+            
+            <div class="mode-card" id="medium-card" onclick="selectMode('medium')">
+                <div class="mode-title">
+                    <span class="difficulty-indicator" id="medium-indicator"></span>
+                    Medium
+                </div>
+                <p>Range: 1-100</p>
+                <p>Guesses: 5</p>
+                <p>Time: 30s</p>
+            </div>
+            
+            <div class="mode-card" id="hard-card" onclick="selectMode('hard')">
+                <div class="mode-title">
+                    <span class="difficulty-indicator" id="hard-indicator"></span>
+                    Hard
+                </div>
+                <p>Range: 1-200</p>
+                <p>Guesses: 4</p>
+                <p>Time: 20s</p>
+            </div>
+            
+            <div class="mode-card" id="extreme-card" onclick="selectMode('extreme')">
+                <div class="mode-title">
+                    <span class="difficulty-indicator" id="extreme-indicator"></span>
+                    Extreme
+                </div>
+                <p>Range: 1-500</p>
+                <p>Guesses: 3</p>
+                <p>Time: 15s</p>
+            </div>
+            
+            <div class="mode-card locked" id="ultra-card" onclick="attemptSelectUltra()">
+                <div class="mode-title">
+                    <span class="difficulty-indicator" id="ultra-indicator"></span>
+                    Ultra Extreme
+                </div>
+                <p>Range: 1-1,000,000</p>
+                <p>Guesses: 2</p>
+                <p>Time: 120s</p>
+            </div>
+        </div>
+        
+        <div class="progress-container">
+            <p id="unlock-progress">Unlock Ultra Extreme: <span id="progress-text">0/80,000</span></p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="unlock-progress-bar"></div>
+            </div>
+        </div>
+        
+        <button id="start-btn" onclick="startGame()">Start Game</button>
+        
+        <div id="high-score-display">High Score: 0</div>
+        
+        <p id="message"></p>
+    </div>
+    
+    <!-- Game Screen -->
+    <div id="game-screen">
+        <h1>Guess the Number</h1>
+        
+        <div class="range-display" id="range-display">Guess between 1-100</div>
+        
+        <div class="progress-container timer-container">
+            <div id="time-bar"></div>
+        </div>
+        
+        <div class="game-info">
+            <div class="info-box" id="timer">Time: 30s</div>
+            <div class="info-box" id="guesses-left">Guesses: 5</div>
+            <div class="info-box" id="score-display">Score: 0</div>
+        </div>
+        
+        <div class="guess-form">
+            <input type="number" id="user-guess" min="1" max="100" placeholder="Enter your guess">
+            <button id="guess-btn" onclick="checkGuess()">Guess</button>
+        </div>
+        
+        <p id="game-message"></p>
+        
+        <div class="buttons-container">
+            <button class="hint-btn" onclick="getHint()">Hint (-50 pts)</button>
+            <button class="powerup-btn" onclick="usePowerup('extraTime')">+10s (-300 pts)</button>
+            <button class="powerup-btn" onclick="usePowerup('extraGuess')">+1 Guess (-500 pts)</button>
+            <button class="powerup-btn" onclick="usePowerup('narrowRange')">Narrow Range (-1500 pts)</button>
+        </div>
+        
+        <div class="history-container">
+            <p class="history-title">Guess History</p>
+            <div id="guess-history"></div>
+        </div>
+        
+        <div class="stats-container">
+            <div>Streak: <span id="streak">0</span></div>
+            <div>Best: <span id="best-streak">0</span></div>
+            <div>Games: <span id="games-played">0</span></div>
+        </div>
+        
+        <button onclick="returnToMenu()" class="menu-btn">Back to Menu</button>
+    </div>
+    
+    <div class="modal" id="game-over-modal">
+        <div class="modal-content">
+            <h2 id="result-title">Game Over</h2>
+            <p id="result-message"></p>
+            <p id="final-score"></p>
+            <div class="modal-buttons">
+                <button onclick="restartGame()">Play Again</button>
+                <button onclick="returnToMenu()" class="menu-btn">Main Menu</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="unlock-alert" id="unlock-alert">
+        🔓 Ultra Extreme Mode Unlocked!
+    </div>
+
+    <script src="script.js"></script>
+</body>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+:root {
+    --primary: #4361EE;
+    --secondary: #FF6B6B;
+    --accent: #4CC9F0;
+    --background: #F8F9FA;
+    --text: #212529;
+    --success: #4ECCA3;
+    --warning: #FFBE0B;
+    --card: #FFFFFF;
+    --ultra: #9C27B0; /* Color for Ultra Extreme mode */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+h1 {
+    color: var(--primary);
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    text-align: center;
+    text-shadow: 0 0 17px black;
+    color: rgb(195, 255, 187);
+}
+
+.subtitle {
+    color: var(--secondary);
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 300;
+}
+
+input {
+    padding: 12px;
+    font-size: 1.2rem;
+    border: 2px solid var(--primary);
+    border-radius: 8px;
+    background: white;
+    color: var(--text);
+    outline: none;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 15px;
+    font-family: 'Poppins', sans-serif;
+}
+
+button {
+    padding: 12px 20px;
+    font-size: 1rem;
+    background-color: var(--primary);
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    transition: transform 0.2s, background-color 0.2s;
+    display: inline-block;
+}
+
+.close-btn {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background-color: #333;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 100;
+            font-family: 'Press Start 2P', cursive;
+            outline: none;
+        }
+        .close-btn:hover {
+            background-color: #FF0000; /* Red on hover */
+        }
+
+button:hover {
+    background-color: #3251d4;
+    transform: translateY(-2px);
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+#message, #game-message {
+    margin: 20px 0;
+    font-size: 1.2rem;
+    min-height: 50px;
+    text-align: center;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.game-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.info-box {
+    padding: 15px;
+    background-color: var(--card);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    flex: 1;
+    min-width: 120px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.progress-container {
+    width: 100%;
+    text-align: center;
+    margin: 15px 0 25px;
+}
+
+.timer-container {
+    background-color: #e9ecef;
+    border-radius: 8px;
+    height: 12px;
+    overflow: hidden;
+    margin-bottom: 25px;
+}
+
+#time-bar {
+    height: 100%;
+    background-color: var(--accent);
+    border-radius: 8px;
+    transition: width 1s linear;
+    width: 100%;
+}
+
+.buttons-container {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.hint-btn {
+    background-color: var(--accent);
+}
+
+.powerup-btn {
+    background-color: var(--warning);
+}
+
+.mode-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin: 30px 0;
+}
+
+.mode-card {
+    background-color: var(--card);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    width: 200px;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-align: center;
+}
+
+.mode-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.mode-card.locked {
+    opacity: 0.7;
+    cursor: not-allowed;
+    position: relative;
+}
+
+.mode-card.locked:after {
+    content: '🔒 Locked';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    border-radius: 8px;
+}
+
+.mode-title {
+    font-weight: 600;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.difficulty-indicator {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+#start-btn {
+    display: block;
+    margin: 30px auto;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    background-color: var(--success);
+}
+
+.range-display {
+    text-align: center;
+    margin-bottom: 15px;
+    font-weight: 600;
+    color: var(--accent);
+}
+
+.guess-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.guess-form input {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.history-container {
+    margin-top: 30px;
+    padding: 15px;
+    background-color: var(--card);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.history-title {
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--primary);
+}
+
+.history-item {
+    padding: 8px 12px;
+    margin: 5px 0;
+    border-radius: 5px;
+}
+
+.history-item.high {
+    background-color: rgba(255, 107, 107, 0.1);
+    color: var(--secondary);
+}
+
+.history-item.low {
+    background-color: rgba(76, 201, 240, 0.1);
+    color: var(--accent);
+}
+
+.history-item.correct {
+    background-color: rgba(76, 204, 163, 0.1);
+    color: var(--success);
+}
+
+.stats-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    font-size: 0.9rem;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: var(--card);
+    padding: 30px;
+    border-radius: 12px;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.selected-mode {
+    border: 2px solid var(--primary);
+    transform: translateY(-5px);
+}
+
+#easy-indicator { background-color: var(--success); }
+#medium-indicator { background-color: var(--warning); }
+#hard-indicator { background-color: var(--secondary); }
+#extreme-indicator { background-color: var(--primary); }
+#ultra-indicator { background-color: var(--ultra); }
+
+#game-screen { display: none; }
+
+#high-score-display {
+    text-align: center;
+    margin-top: 20px;
+    font-weight: 600;
+}
+
+.menu-btn {
+    display: block;
+    margin: 20px auto;
+    background-color: #6c757d;
+}
+
+#result-title {
+    margin-bottom: 20px;
+    color: var(--primary);
+}
+
+#final-score {
+    margin-bottom: 25px;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+/* Alert for unlocking Ultra Extreme */
+.unlock-alert {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--ultra);
+    color: white;
+    padding: 15px 30px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    z-index: 1000;
+    display: none;
+    text-align: center;
+    animation: slideDown 0.5s, fadeOut 0.5s 3.5s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes slideDown {
+    from { top: -50px; opacity: 0; }
+    to { top: 20px; opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #eeeeee;
+    border-radius: 4px;
+    margin-top: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--primary);
+    transition: width 0.3s;
+}
+
+@media (max-width: 600px) {
+    .game-info {
+        flex-direction: column;
+    }
+    .buttons-container {
+        flex-direction: column;
+    }
+    .guess-form {
+        flex-direction: column;
+    }
+}
+</style>
+<script>
+    // Game variables
+let randomNumber;
+let minRange = 1;
+let maxRange = 100;
+let attempts;
+let maxAttempts;
+let timeLeft;
+let maxTime;
+let timer;
+let score = 0;
+let highScore = 0;
+let streak = 0;
+let bestStreak = 0;
+let gamesPlayed = 0;
+let difficulty = 'medium';
+let guessHistory = [];
+let gameActive = false;
+let hintUsed = false;
+let selectedMode = null;
+let ultraUnlocked = false;
+const ULTRA_UNLOCK_SCORE = 80000;
+
+// Simple feedback messages
+const feedbackMessages = [
+    "Not quite!",
+    "Try again!",
+    "Keep trying!",
+    "Getting closer...",
+    "Almost there!",
+    "Not yet!",
+    "Still searching...",
+    "Not that one!"
+];
+
+<!-- Cross Button to Close or Redirect -->
+<button class="close-btn" onclick="window.location.href='../index.html'">×</button>
+
+// Load saved data on initial page load
+document.addEventListener('DOMContentLoaded', function() {
+    // Load high score from local storage
+    const savedHighScore = localStorage.getItem("guessTheNumberHighScore");
+    if (savedHighScore) {
+        highScore = parseInt(savedHighScore);
+        document.getElementById('high-score-display').innerText = `High Score: ${highScore.toLocaleString()}`;
+    }
+    
+    // Load ultra extreme unlock status
+    const savedUltraUnlocked = localStorage.getItem("ultraExtremeUnlocked");
+    if (savedUltraUnlocked === "true") {
+        ultraUnlocked = true;
+        document.getElementById('ultra-card').classList.remove('locked');
+    }
+    
+    // Set up event listeners
+    document.getElementById('user-guess').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            checkGuess();
+        }
+    });
+    
+    // Update progress bar
+    checkUltraUnlock();
+});
+
+// Attempt to select Ultra Extreme mode
+function attemptSelectUltra() {
+    if (ultraUnlocked) {
+        selectMode('ultra');
+    } else {
+        const remaining = ULTRA_UNLOCK_SCORE - highScore;
+        document.getElementById("message").innerText = `Ultra Extreme mode unlocks at 80,000 points. You need ${remaining.toLocaleString()} more points!`;
+    }
+}
+
+// Select game mode
+function selectMode(mode) {
+    // If trying to select ultra mode but it's not unlocked, show a message
+    if (mode === 'ultra' && !ultraUnlocked) {
+        return;
+    }
+    
+    selectedMode = mode;
+    
+    // Remove selected class from all cards
+    document.querySelectorAll('.mode-card').forEach(card => {
+        card.classList.remove('selected-mode');
+    });
+    
+    // Add selected class to chosen card
+    document.getElementById(`${mode}-card`).classList.add('selected-mode');
+    
+    // Update difficulty
+    difficulty = mode;
+}
+
+// Check if Ultra Extreme mode should be unlocked
+function checkUltraUnlock() {
+    // Update progress bar
+    const progressPercent = Math.min(100, (highScore / ULTRA_UNLOCK_SCORE) * 100);
+    document.getElementById('unlock-progress-bar').style.width = `${progressPercent}%`;
+    document.getElementById('progress-text').innerText = `${highScore.toLocaleString()}/${ULTRA_UNLOCK_SCORE.toLocaleString()}`;
+    
+    if (highScore >= ULTRA_UNLOCK_SCORE && !ultraUnlocked) {
+        ultraUnlocked = true;
+        
+        // Remove locked class
+        document.getElementById('ultra-card').classList.remove('locked');
+        
+        // Show unlock alert
+        const alert = document.getElementById('unlock-alert');
+        alert.style.display = 'block';
+        
+        // Auto-hide alert after 4 seconds
+        setTimeout(() => {
+            alert.style.display = 'none';
+        }, 4000);
+        
+        // Save the unlocked status to localStorage
+        localStorage.setItem("ultraExtremeUnlocked", "true");
+    }
+}
+
+// Start the game
+function startGame() {
+    if (!selectedMode) {
+        alert("Please select a difficulty mode first!");
+        return;
+    }
+    
+    // Hide start screen, show game screen
+    document.getElementById('start-screen').style.display = 'none';
+    document.getElementById('game-screen').style.display = 'block';
+    
+    // Initialize game with selected difficulty
+    initGame();
+    startTimer();
+}
+
+// Return to main menu
+function returnToMenu() {
+    // Clear any running timer
+    clearInterval(timer);
+    
+    // Hide game screen, show start screen
+    document.getElementById('game-screen').style.display = 'none';
+    document.getElementById('start-screen').style.display = 'block';
+    
+    // Hide modal if open
+    document.getElementById('game-over-modal').style.display = 'none';
+    
+    // Update high score display on start screen
+    document.getElementById('high-score-display').innerText = `High Score: ${highScore.toLocaleString()}`;
+    
+    // Check if Ultra should be unlocked
+    checkUltraUnlock();
+}
+
+// Initialize the game
+function initGame() {
+    // Set difficulty parameters
+    switch(difficulty) {
+        case 'easy':
+            maxAttempts = 8;
+            maxTime = 45;
+            minRange = 1;
+            maxRange = 50;
+            break;
+        case 'medium':
+            maxAttempts = 5;
+            maxTime = 30;
+            minRange = 1;
+            maxRange = 100;
+            break;
+        case 'hard':
+            maxAttempts = 4;
+            maxTime = 20;
+            minRange = 1;
+            maxRange = 200;
+            break;
+        case 'extreme':
+            maxAttempts = 3;
+            maxTime = 15;
+            minRange = 1;
+            maxRange = 500;
+            break;
+        case 'ultra':
+            maxAttempts = 2;
+            maxTime = 120;
+            minRange = 1;
+            maxRange = 1000000;
+            break;
+    }
+    
+    randomNumber = Math.floor(Math.random() * (maxRange - minRange + 1)) + minRange;
+    attempts = maxAttempts;
+    timeLeft = maxTime;
+    guessHistory = [];
+    hintUsed = false;
+    gameActive = true;
+    
+    // Update UI
+    const userGuessInput = document.getElementById("user-guess");
+    userGuessInput.min = minRange;
+    userGuessInput.max = maxRange;
+    userGuessInput.value = "";
+    userGuessInput.focus();
+    
+    document.getElementById("range-display").innerText = `Guess between ${minRange.toLocaleString()}-${maxRange.toLocaleString()}`;
+    document.getElementById("timer").innerText = `Time: ${timeLeft}s`;
+    document.getElementById("guesses-left").innerText = `Guesses: ${attempts}`;
+    document.getElementById("game-message").innerText = "";
+    document.getElementById("guess-history").innerHTML = "";
+    document.getElementById("time-bar").style.width = "100%";
+    document.getElementById("score-display").innerText = `Score: ${score}`;
+    
+    // Enable input and buttons
+    userGuessInput.disabled = false;
+    document.getElementById("guess-btn").disabled = false;
+    
+    // Clear any existing timer
+    clearInterval(timer);
+}
+
+// Start the timer
+function startTimer() {
+    // Reset the time bar
+    document.getElementById("time-bar").style.width = "100%";
+    
+    timer = setInterval(() => {
+        timeLeft--;
+        
+        // Update timer display
+        document.getElementById("timer").innerText = `Time: ${timeLeft}s`;
+        
+        // Update time bar
+        const percentage = (timeLeft / maxTime) * 100;
+        document.getElementById("time-bar").style.width = `${percentage}%`;
+        
+        // Change color based on time left
+        if (timeLeft <= maxTime * 0.25) {
+            document.getElementById("time-bar").style.backgroundColor = "#FF6B6B";
+        } else if (timeLeft <= maxTime * 0.5) {
+            document.getElementById("time-bar").style.backgroundColor = "#FFBE0B";
+        }
+        
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            endGame(false, "Time's up!");
+        }
+    }, 1000);
+}
+
+// Check the user's guess
+function checkGuess() {
+    if (!gameActive) return;
+
+    let userGuessInput = document.getElementById("user-guess");
+    let userGuess = parseInt(userGuessInput.value);
+    let message = document.getElementById("game-message");
+
+    // Validate input
+    if (isNaN(userGuess) || userGuess < minRange || userGuess > maxRange) {
+        message.innerText = `Please enter a valid number (${minRange.toLocaleString()}-${maxRange.toLocaleString()})`;
+        return;
+    }
+
+    // Decrease attempts
+    attempts--;
+    document.getElementById("guesses-left").innerText = `Guesses: ${attempts}`;
+    
+    // Add to guess history
+    addToHistory(userGuess);
+    
+    // Clear input field for next guess
+    userGuessInput.value = "";
+    userGuessInput.focus();
+    
+    // Check guess
+    if (userGuess < randomNumber) {
+        message.innerText = `${feedbackMessages[Math.floor(Math.random() * feedbackMessages.length)]} Too low.`;
+    } else if (userGuess > randomNumber) {
+        message.innerText = `${feedbackMessages[Math.floor(Math.random() * feedbackMessages.length)]} Too high.`;
+    } else {
+        // Correct guess!
+        
+        // Calculate score based on difficulty, time left, and attempts
+        const difficultyMultiplier = {
+            'easy': 1,
+            'medium': 2,
+            'hard': 3,
+            'extreme': 5,
+            'ultra': 10 // Higher multiplier for Ultra Extreme
+        };
+        
+        const baseScore = 1000;
+        const timeBonus = timeLeft * 10;
+        const attemptBonus = attempts * 50;
+        const diffBonus = difficultyMultiplier[difficulty] * 100;
+        
+        let roundScore = baseScore + timeBonus + attemptBonus + diffBonus;
+        
+        // Special bonus for Ultra Extreme
+        if (difficulty === 'ultra') {
+            // Big bonus for Ultra Extreme
+            roundScore *= 2;
+            message.innerText = "INCREDIBLE! You conquered Ultra Extreme!";
+        } else {
+            message.innerText = "Correct! You got it!";
+        }
+        
+        // Apply streak bonus if applicable
+        let streakBonus = 0;
+        streak++;
+        
+        if (streak > 1) {
+            streakBonus = streak * 50;
+            message.innerText += ` Streak bonus: +${streakBonus}`;
+        }
+        
+        // Update best streak
+        if (streak > bestStreak) {
+            bestStreak = streak;
+            document.getElementById("best-streak").innerText = bestStreak;
+        }
+        
+        // Update total score
+        score += roundScore + streakBonus;
+        document.getElementById("score-display").innerText = `Score: ${score}`;
+        
+        // Update high score if needed
+        if (score > highScore) {
+            highScore = score;
+            document.getElementById('high-score-display').innerText = `High Score: ${highScore.toLocaleString()}`;
+            
+            // Save the high score to local storage
+            localStorage.setItem("guessTheNumberHighScore", highScore.toString());
+            
+            // Check if Ultra should be unlocked
+            checkUltraUnlock();
+        }
+        
+        // End game with win
+        endGame(true, `You win! The number was ${randomNumber.toLocaleString()}!`);
+    }
+
+    // Check if out of guesses
+    if (attempts <= 0 && userGuess !== randomNumber) {
+        endGame(false, `No guesses left! The number was ${randomNumber.toLocaleString()}.`);
+    }
+}
+
+// Add guess to history
+function addToHistory(guess) {
+    const historyContainer = document.getElementById("guess-history");
+    const historyItem = document.createElement("div");
+    historyItem.classList.add("history-item");
+    
+    if (guess < randomNumber) {
+        historyItem.classList.add("low");
+        historyItem.innerText = `${guess.toLocaleString()} - Too low`;
+    } else if (guess > randomNumber) {
+        historyItem.classList.add("high");
+        historyItem.innerText = `${guess.toLocaleString()} - Too high`;
+    } else {
+        historyItem.classList.add("correct");
+        historyItem.innerText = `${guess.toLocaleString()} - Correct!`;
+    }
+    
+    historyContainer.appendChild(historyItem);
+    
+    // Add to history array
+    guessHistory.push(guess);
+}
+
+// Get a hint
+function getHint() {
+    if (!gameActive || hintUsed) return;
+    
+    // Check if player has enough points
+    if (score < 50) {
+        document.getElementById("game-message").innerText = "Not enough points for hint!";
+        return;
+    }
+    
+    score -= 50;
+    document.getElementById("score-display").innerText = `Score: ${score}`;
+    hintUsed = true;
+    
+    // Generate hint
+    let hint;
+    
+    // Special hints for Ultra Extreme mode
+    if (difficulty === 'ultra') {
+        const randomHintType = Math.floor(Math.random() * 4);
+        
+        switch(randomHintType) {
+            case 0:
+                // Digit length hint
+                hint = `The number has ${randomNumber.toString().length} digits`;
+                break;
+            case 1:
+                // First digit hint
+                hint = `The first digit is ${randomNumber.toString()[0]}`;
+                break;
+            case 2:
+                // Order of magnitude hint
+                const magnitude = Math.floor(Math.log10(randomNumber));
+                hint = `The number is between ${Math.pow(10, magnitude).toLocaleString()} and ${Math.pow(10, magnitude + 1).toLocaleString()}`;
+                break;
+            case 3:
+                // Even/odd hint
+                hint = randomNumber % 2 === 0 ? "The number is even" : "The number is odd";
+                break;
+        }
+    } else {
+        // For other difficulties, narrow the range by 25%
+        const range = maxRange - minRange;
+        
+        if (randomNumber < minRange + range/2) {
+            // Number is in lower half
+            hint = `The number is between ${minRange.toLocaleString()} and ${(minRange + range/2).toLocaleString()}`;
+        } else {
+            // Number is in upper half
+            hint = `The number is between ${(minRange + range/2).toLocaleString()} and ${maxRange.toLocaleString()}`;
+        }
+    }
+    
+    document.getElementById("game-message").innerText = `Hint: ${hint}`;
+}
+
+// Use a powerup
+function usePowerup(type) {
+    if (!gameActive) return;
+    
+    let cost = 0;
+    let message = document.getElementById("game-message");
+    
+    switch(type) {
+        case 'extraTime':
+            cost = 300;
+            if (score < cost) {
+                message.innerText = "Not enough points!";
+                return;
+            }
+            score -= cost;
+            timeLeft += 10;
+            document.getElementById("timer").innerText = `Time: ${timeLeft}s`;
+            message.innerText = "+10 seconds added!";
+            break;
+            
+        case 'extraGuess':
+            cost = 500;
+            if (score < cost) {
+                message.innerText = "Not enough points!";
+                return;
+            }
+            score -= cost;
+            attempts += 1;
+            document.getElementById("guesses-left").innerText = `Guesses: ${attempts}`;
+            message.innerText = "+1 guess added!";
+            break;
+            
+        case 'narrowRange':
+            cost = 1500;
+            if (score < cost) {
+                message.innerText = "Not enough points!";
+                return;
+            }
+            
+            score -= cost;
+            
+            // Narrow the range by 40%
+            const range = maxRange - minRange;
+            
+            let newMin = minRange;
+            let newMax = maxRange;
+            
+            if (randomNumber < minRange + range/2) {
+                // Number is in lower half
+                newMax = minRange + Math.floor(range/2);
+            } else {
+                // Number is in upper half
+                newMin = minRange + Math.floor(range/2);
+            }
+            
+            minRange = newMin;
+            maxRange = newMax;
+            
+            // Update UI
+            document.getElementById("range-display").innerText = `Guess between ${minRange.toLocaleString()}-${maxRange.toLocaleString()}`;
+            document.getElementById("user-guess").min = minRange;
+            document.getElementById("user-guess").max = maxRange;
+            
+            message.innerText = `Range narrowed to ${minRange.toLocaleString()}-${maxRange.toLocaleString()}`;
+            break;
+    }
+    
+    // Update score display
+    document.getElementById("score-display").innerText = `Score: ${score}`;
+}
+
+// End the game
+function endGame(win, msg) {
+    // Stop the game
+    gameActive = false;
+    
+    // Clear any running timer
+    clearInterval(timer);
+    
+    // Update games played
+    gamesPlayed++;
+    document.getElementById("games-played").innerText = gamesPlayed;
+    
+    // Reset streak if lost
+    if (!win) {
+        streak = 0;
+        document.getElementById("streak").innerText = streak;
+    } else {
+        document.getElementById("streak").innerText = streak;
+    }
+    
+    // Show game over modal
+    const modal = document.getElementById("game-over-modal");
+    const resultTitle = document.getElementById("result-title");
+    const resultMessage = document.getElementById("result-message");
+    const finalScore = document.getElementById("final-score");
+    
+    resultTitle.innerText = win ? "You Win!" : "Game Over";
+    resultTitle.style.color = win ? "var(--success)" : "var(--secondary)";
+    resultMessage.innerText = msg;
+    finalScore.innerText = `Final Score: ${score.toLocaleString()}`;
+    
+    modal.style.display = "flex";
+}
+
+// Restart the game
+function restartGame() {
+    // Hide modal
+    document.getElementById("game-over-modal").style.display = "none";
+    
+    // Initialize game with current difficulty
+    initGame();
+    startTimer();
+}
+</script>

@@ -7,271 +7,8 @@
   <title>Kai's Website</title>
   <link rel="icon" href="KaiEditzAMV.jpg">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    /* Global Styles */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #1e1e2f;
-      color: #fff;
-      background-image: url('bg-main.jpg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-    }
-    header {
-      background-image: url(bg-header.png);
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: cover;
-      padding: 1rem;
-      text-align: center;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-    }
-    header h1 { font-size: 3rem; letter-spacing: 2px; }
-    nav {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 2rem;
-      margin: 0;
-    }
-    nav a {
-      color: #fff;
-      text-decoration: none;
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      transition: background 0.3s;
-    }
-    nav a:hover { background-color: #ff4757; }
-    .container { display: flex; margin: 2rem; }
-    .main-content {
-      flex: 3;
-      position: relative;
-      background-image: url('bg-maincontent.png');
-      background-size: cover;
-      background-position: center;
-      background-color: #2e2e3e;
-      border-radius: 12px;
-      padding: 2rem;
-      margin-right: 2rem;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-      z-index: 1;
-    }
-    .main-content h2 { margin-bottom: 1rem; border-bottom: 2px solid #ffa502; padding-bottom: 0.5rem; }
-    .content-card {
-      background-color: #3e3e5e;
-      border-radius: 10px;
-      margin: 1rem 0;
-      padding: 1rem;
-      transition: transform 0.3s;
-    }
-    .content-card:hover { transform: translateY(-5px); cursor: pointer; }
-    .content-card h3 { margin-bottom: 0.5rem; color: #ffa502; }
-    .content-card p { font-size: 0.95rem; line-height: 1.4; }
-    .sidebar {
-      flex: 1;
-      background-color: #3e3e5e;
-      background-image: url('bg-latest-vids.jpg');
-      background-size: cover;
-      background-position: center;
-      border-radius: 12px;
-      padding: 2rem;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-      justify-content: center;
-    }
-    .sidebar h3 {
-      margin-bottom: 1rem;
-      border-bottom: 2px solid #ff6b6b;
-      padding-bottom: 0.5rem;
-    }
-    .video-item {
-      margin-bottom: 1rem;
-      cursor: pointer;
-      transition: transform 0.3s;
-    }
-    .video-item:hover { transform: translateY(-5px); }
-    .video-item img { width: 100%; border-radius: 8px; margin-bottom: 0.5rem; }
-    .video-item h4 { font-size: 0.9rem; color: #ffa502; }
-    footer {
-      text-align: center;
-      padding: 1rem 0;
-      margin-top: 2rem;
-      background-color: #2e2e3e;
-      color: #ccc;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      z-index: 2;
-    }
-    /* Popup overlay */
-    #creditsPopup {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(10px);
-      z-index: 1000;
-    }
-    /* Popup box styled like other content areas */
-    .popup {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 40%;
-      background-color: #2e2e3e;
-      background-image: url('bg-popup.jpg');
-      background-size: cover;
-      background-position: center;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-      z-index: 1001;
-      max-height: 90%;
-      overflow-y: auto;
-    }
-    /* Close button styled to match design */
-    .close-btn {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background-color: #ff4757;
-      border: none;
-      color: #fff;
-      font-size: 1.2em;
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all ease-in-out 0.5s;
-    }
-   .close-btn:hover {
-    box-shadow: 0 0 10px 5px rgba(255, 71, 87, 0.8);
-   }
-    /* Popup text styles matching other elements */
-    .popup-title {
-      text-align: center;
-      font-size: 1.8em;
-      color: #ffa502;
-      margin-bottom: 1rem;
-    }
-    .popup-subtitle {
-      text-align: center;
-      font-size: 1.2em;
-      color: lightcoral;
-      margin-bottom: 1rem;
-    }
-    .popup-content {
-      text-align: center;
-      font-size: 1.1em;
-      color: #fff;
-      line-height: 1.4;
-      margin-bottom: 1rem;
-    }
-    /* Invite button styled like nav elements */
-    .invite-btn {
-      margin: 20px auto 0;
-      display: block;
-      height: 47px;
-      padding: 10px 20px;
-      font-size: 16px;
-      color: #fff;
-      background-color: #ff4757;
-      border: none;
-      border-radius: 8px;
-     /* box-shadow: 0 4px 6px rgba(0,0,0,0.3); */
-      cursor: pointer;
-      transition: ease-in-out 0.5s;
-      box-shadow: #e03e50;
-    }
-    .invite-btn:hover {
-      box-shadow: 0 0 10px 5px rgba(255, 71, 87, 0.8);
-      transform: scale(1.2);
-    }
-    .break { height: 20px; }
-    /* Socials Popup */
-    #linksPopup {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(10px);
-      z-index: 1000;
-    }
-    #linksPopup .popup {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 40%;
-      background-color: #2e2e3e;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-      z-index: 1001;
-      max-height: 90%;
-      overflow-y: auto;
-    }
-    #linksPopup .close-btn {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background-color: #ff4757;
-      cursor: pointer;
-      border: none;
-      color: #fff;
-      font-size: 1.2em;
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    #linksPopup .close-btn:hover {
-    box-shadow: 0 0 10px 5px rgba(255, 71, 87, 0.8);
-   }
-    #linksPopup .popup-title {
-      text-align: center;
-      font-size: 1.8em;
-      color: #ffa502;
-      margin-bottom: 1rem;
-    }
-    #linksPopup .social-links {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-    }
-    #linksPopup .social-links a img {
-      width: 40px;
-      height: auto;
-      transition: transform 0.3s;
-    }
-    #linksPopup .social-links a img:hover { transform: scale(1.1); }
-    .video-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 5px;
-    }
-    .video-container iframe {
-      width: 400px;
-      height: 175px;
-      justify-items: center;
-      justify-content: center;
-      transition: transform 0.3s;
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet"> <!--Comic Neue font for fun -->
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header>
@@ -348,18 +85,44 @@
   <!-- Credits Popup with Easter Egg Game -->
   <div id="creditsPopup">
     <div class="popup">
-      <button class="close-btn" onclick="document.getElementById('creditsPopup').style.display = 'none'"; onclick="document.getElementById('easterEggGame').style.display = 'none'">✖</button>
+      <button class="close-btn" onclick="document.getElementById('creditsPopup').style.display = 'none'" >✖</button>
       <div id="creditsContent">
         <h2 class="popup-title">Website Credits</h2>
         <p class="popup-content">Made with ❤️ by MysticCCS (mysticccs0 on Discord).</p>
         <button class="invite-btn" onclick="startEasterEggGame()">???</button>
       </div>
-      <div id="easterEggGame" style="display: none;">
+     <div id="easterEggGame" style="display: none;">
+      <button class="close-btn" onclick="exitEasterEggGame()">✖</button>
+        <h2 class="popup-title">Easter Egg Game</h2>
         <canvas id="gameCanvas" width="300" height="200" style="background: #000; display: block; margin: auto; border-radius: 15px;"></canvas>
         <p id="gameScore" style="text-align: center; color: #fff;">Score: 0</p>
+        <p style="text-align: center; color: #fff;">Click the circle to score points!</p>
       </div>
     </div>
   </div>
+
+
+  <script>
+    function startgameSelect() {
+      document.getElementById('creditsContent').style.display = 'block';
+      document.getElementById('creditsPopup').style.display = 'none'; // Hide the credits popup when starting the game select
+    }
+  </script>
+  <script>
+      function exitEasterEggGame() {
+        // Hide the game area and show the original game select content
+        document.getElementById('easterEggGame').style.display = 'none';
+        document.getElementById('creditsContent').style.display = 'block';
+        document.getElementById('exit-btn').style.display = 'none'; // Hide the exit button when exiting the game
+      }
+  </script>
+  <!-- Was used for testing close funtionality of exitEasterEggGame. -->
+  <!-- <div id="exit-btn">
+    <button class="exit-btn" onclick="exitEasterEggGame()">Exit Game</button>
+  </div>
+  <script>
+    document.getElementById('exit-btn').style.display = 'none'; // Hide the exit button initially
+  </script>
   <script>
     // Clicking outside the Credits popup closes it
     window.addEventListener('click', function(event) {
@@ -368,7 +131,8 @@
         popupContainer.style.display = 'none';
       }
     });
-  </script>
+  </script> -->
+
   <!-- Social Links Popup -->
   <div id="linksPopup">
     <div class="popup">
@@ -384,7 +148,7 @@
         <a href="https://www.youtube.com/@kaimemez" target="_blank">
           <img src="KaiMemes.jpg" alt="@KaiMemeZ" style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 5px solid #1e1e2f; transition: transform 0.5s;">
         </a>
-     <!-- This was Kai AI Tracks but I removed it because Kai took down the channel. Also, this decision was made by Kai himself. -->
+     <!-- This was Kai AI Tracks but I commented it out because Kai took down the channel. Videos on the channel have also been removed. -->
         <!--
           <a href="https://www.youtube.com/@kaiaitracks" target="_blank">
           <img src="KaiAITracks.jpg" alt="@KaiAITracks" style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 5px solid #1e1e2f; transition: transform 0.5s;">
@@ -397,8 +161,9 @@
         </a>
       </div>
       <script>
+        // click outside the popup to close it
         window.addEventListener('click', function(event) {
-          var popupContainer = document.getElementById('linksPopup');
+          let popupContainer = document.getElementById('linksPopup');
           if (event.target === popupContainer) {
             popupContainer.style.display = 'none';
           }
@@ -409,7 +174,7 @@
   <!-- Easter Egg Game Script -->
   <script>
     function startEasterEggGame() {
-      // Hide the original credits content and show the game area
+      // Hide the original game select content and show the game area
       document.getElementById('creditsContent').style.display = 'none';
       document.getElementById('easterEggGame').style.display = 'block';
       initGame();
@@ -458,12 +223,22 @@
   <script>
     // Clicking outside the Credits popup closes it and resets the Easter Egg game if active.
     window.addEventListener('click', function(event) {
-      var popupContainer = document.getElementById('creditsPopup');
+      let popupContainer = document.getElementById('creditsPopup');
       if (event.target === popupContainer) {
         exitEasterEggGame(); // Resets the game and shows the credits content
         popupContainer.style.display = 'none';
       }
     });
     </script>
+      <script>
+        // Clicking outside the Credits popup closes it
+        window.addEventListener('click', function(event) {
+          let popupContainer = document.getElementById('creditsPopup');
+          if (event.target === popupContainer) {
+            popupContainer.style.display = 'none';
+          }
+        });
+        </script>
+
 </body>
 </html>

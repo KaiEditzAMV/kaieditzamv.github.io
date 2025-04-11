@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" type="image/x-icon" href="favicon.PNG">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WAVE - Gaming Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #4a00e0, #8e2de2);
+            color: white;
+            min-height: 100vh;
+            position: relative;
+            /* Remove overflow: hidden to enable scrolling */
+           /* overflow: hidden; */
+           overflow-y: auto; /* Enable vertical scrolling */
+        }
+
+        header {
+            background-color: rgba(0, 0, 0, 0.5);
+            text-align: center;
+            padding: 2rem 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            animation: hfadein 1s ease-out;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        @keyframes hfadein {
+            from {
+                transform: translateY(-50px);
+            }
+
+            to {
+                transform: translateY(0px);
+            }
+        }
+
+        .logo {
+            font-size: 3.5rem;
+            font-weight: bold;
+            letter-spacing: 8px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.877);
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.877);
+        }
+
+        .game-grid {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            gap: 2rem;
+            padding: 2rem;
+            margin: 3rem 0;
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.5) rgba(0, 0, 0, 0.2);
+            white-space: nowrap;
+        }
+
+        .game-card {
+            flex-shrink: 0;
+            width: 320px;
+            min-width: 320px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: box-shadow 0.3s ease, transform 0.3s ease-in-out;
+            will-change: transform;
+            animation: gcfadein 1s ease-out;
+        }
+
+        @keyframes gcfadein {
+            from {
+                transform: translateX(90px);
+            }
+
+            to {
+                transform: translateX(0px);
+            }
+        }
+
+        .game-card:hover {
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            transform: scale(1.05);
+            border-radius: 20px;
+        }
+
+        .game-cover {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .game-info {
+            padding: 1.5rem;
+        }
+
+        .game-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .game-desc {
+            opacity: 0.8;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .play-button {
+            position: relative;
+            display: inline-block;
+            background: linear-gradient(90deg, #ff6b6b, #ff8e53);
+            color: white;
+            text-decoration: none;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .play-button:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+
+        footer {
+            text-align: center;
+            padding: 2.5rem;
+            background-color: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            overflow: hidden;
+            animation: ftfadein 1s ease-out;
+            width: 100%;
+            flex-direction: column;
+        }
+
+        @keyframes ftfadein {
+            from {
+                transform: translateY(50px);
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        footer img {
+            width: 100px;
+            height: 100px;
+            margin: 0;
+            vertical-align: middle;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        .credits p {
+            font-size: 17px;
+            margin-top: 3px;
+            margin-bottom: 4px;
+            font-family: bold;
+            color: rgba(255, 255, 255, 0.619);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+
+
+
+        .privacy {
+            font-size: 17px;
+            margin-top: 3px;
+            margin-bottom: 4px;
+            font-family: bold;
+        }
+
+        .privacy a {
+            text-decoration: none;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: rgba(255, 255, 255, 0.619);
+
+        }
+
+        .footer-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            flex-direction: row;
+        }
+
+        .credits {
+            display: flex;
+            align-items: center;
+        }
+
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">WAVE</div>
+        <div class="tagline">Games N Stuff</div>
+        </div>
+    </header>
+
+    <main>
+        <div class="game-grid">
+            <div class="game-card">
+                <img src="sdfbc.PNG" alt="Space Dodgers" class="game-cover">
+                <div class="game-info">
+                    <h2 class="game-title">Space Dodgers</h2>
+                    <p class="game-desc">Fly through space dodging asteroids.</p>
+                    <a href="spacedodgers/index.html" class="play-button">Play Now</a>
+                </div>
+            </div>
+            <div class="game-card">
+                <img src="https://mir-s3-cdn-cf.behance.net/projects/404/c4b80d143006427.Y3JvcCw4NjksNjgwLDI1LDA.png"
+                    alt="Flappy Bird" class="game-cover">
+                <div class="game-info">
+                    <h2 class="game-title">Flappy Bird</h2>
+                    <p class="game-desc">Fly through the pipes.</p>
+                    <a href="flappybird/index.html" class="play-button">Play Now</a>
+                </div>
+            </div>
+            <div class="game-card">
+                <img src="gtm.jpg" alt="Guess the Number" class="game-cover">
+                <div class="game-info">
+                    <h2 class="game-title">Guess the Number</h2>
+                    <p class="game-desc">Guess the number challenges!</p>
+                    <a href="guessthenum/index.html" class="play-button">Play Now</a>
+                </div>
+            </div>
+            <div class="game-card">
+                <img src="dpc.jpg" alt="Draw a Circle" class="game-cover">
+                <div class="game-info">
+                    <h2 class="game-title">Draw a Circle</h2>
+                    <p class="game-desc">Draw the most circular circle.</p>
+                    <a href="dpc/dpc.html" class="play-button">Play Now</a>
+                </div>
+            </div>
+            <div class="game-card">
+                <img src="cps.png" alt="cps" class="game-cover">
+                <div class="game-info">
+                    <h2 class="game-title">Clicks per second test!</h2>
+                    <p class="game-desc">Click as fast as you can!</p>
+                    <a href="cps test/index.html" class="play-button">Play Now</a>
+                </div>
+            </div>
+            <div class="game-card">
+                <img src="cc.png" alt="cookie clicker" class="game-cover">
+                <div class="game-info">
+                    <h2 class="game-title">cookie clicker</h2>
+                    <p class="game-desc">Click the cookies,generate as many!</p>
+                    <a href="cookieclicker/index.html" class="play-button">Play Now</a>
+                </div>
+            </div>
+            <div class="game-card">
+                <img src="rps.jpeg" alt="rps" class="game-cover" >
+                <div class="game-info">
+                    <h2 class="game-title">Rock Paper Scissors</h2>
+                    <p class="game-desc">Play Rock Paper Scissors!</p>
+                    <a href="rps/index.html" class="play-button">Play Now</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="credits">
+                <p>&copy; 2025 WAVE Gaming. All rights reserved.</p>
+            </div>
+
+            <div class="privacy">
+                <a href="privacypolicy/index.html">Privacy Policy</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

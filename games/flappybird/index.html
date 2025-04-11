@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <!--adsense-->
+     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5484266396833706"
+     crossorigin="anonymous"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retro Flappy Bird Game</title>
+
+    <!-- Link to Google Fonts for Press Start 2P - a perfect retro pixel font -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+            font-family: 'Press Start 2P', cursive;
+            image-rendering: pixelated;
+        }
+
+        .background {
+            height: 100vh;
+            width: 100vw;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-image: url('bg.JPG');
+            background-size: cover;
+            background-position: center;
+            /* Add a pixelated filter effect */
+            image-rendering: pixelated;
+            filter: brightness(0.8) contrast(1.2);
+        }
+
+        .bird {
+            height: 80px;
+            width: 120px;
+            position: fixed;
+            top: 40vh;
+            left: 30vw;
+            z-index: 100;
+            image-rendering: pixelated;
+        }
+
+        /* Pixel art pipe styling */
+        .pipe_sprite {
+            position: fixed;
+            width: 8vw;
+            image-rendering: pixelated;
+            border: none;
+            border-radius: 0;
+            background-image: linear-gradient(to right, 
+                #005700 0%, #005700 40%, 
+                #008800 40%, #008800 60%, 
+                #005700 60%, #005700 100%);
+        }
+
+        /* Pixel-style pipe cap */
+        .pipe_top::after, .pipe_bottom::before {
+            content: '';
+            display: block;
+            position: absolute;
+            width: 120%;
+            height: 30px;
+            left: -10%;
+            background-image: linear-gradient(to right, 
+                #005700 0%, #005700 40%, 
+                #008800 40%, #008800 60%, 
+                #005700 60%, #005700 100%);
+        }
+
+        .pipe_top::after {
+            bottom: 0;
+        }
+
+        .pipe_bottom::before {
+            top: 0;
+        }
+
+        .pipe_top {
+            height: 70vh;
+            /* Remove rounded caps for pixel look */
+            border-radius: 0;
+        }
+
+        .pipe_bottom {
+            height: 70vh;
+            /* Remove rounded caps for pixel look */
+            border-radius: 0;
+        }
+
+        .message {
+            position: fixed;
+            z-index: 10;
+            height: 10vh;
+            font-size: 4vh;
+            font-weight: normal;
+            color: white;
+            top: 12vh;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            text-shadow: 3px 3px 0 #000;
+            white-space: pre;
+            line-height: 1.5;
+        }
+        
+        .restart-text {
+            color: #FF0000;
+            text-shadow: 3px 3px 0 #000;
+        }
+
+        .score {
+            position: fixed;
+            z-index: 10;
+            height: 10vh;
+            font-size: 3vh;
+            font-weight: normal;
+            color: white;
+            top: 5vh;
+            left: 5vw;
+            text-shadow: 2px 2px 0 #000;
+        }
+
+        .score_val {
+            color: #FFFF00;
+        }
+
+        .device-warning {
+            position: fixed;
+            z-index: 10;
+            width: 80vw;
+            font-size: 2vh;
+            font-weight: normal;
+            color: #ff0000;
+            bottom: 10vh;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            text-shadow: 2px 2px 0 #000;
+        }
+
+        /* Scanline effect for CRT feel */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.1),
+                rgba(0, 0, 0, 0.1) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        /* Screen flicker animation */
+        @keyframes flicker {
+            0% { opacity: 0.98; }
+            50% { opacity: 1; }
+            100% { opacity: 0.98; }
+        }
+
+        body {
+            animation: flicker 0.5s infinite;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background"></div>
+    <img class="bird" src="bird.png" alt="bird-img">
+    <div class="message">
+        PRESS TO START
+    </div>
+    <div class="device-warning">
+        THIS GAME MIGHT NOT WORK PROPERLY ON SOME DEVICES
+    </div>
+    <div class="score">
+        <span class="score_title"></span>
+        <span class="score_val"></span>
+    </div>
+
+    <!-- Cross Button to Close or Redirect -->
+    <button class="close-btn" onclick="window.location.href='../index.html'">×</button>
+
+    <script>
+        // Background scrolling speed
+        let move_speed = 3;
+
+        // Gravity constant value
+        let gravity = 0.14;
+
+        // Bird speed and position
+        let bird_dy = 0;
+        let bird_top = 40; // bird's top position in percentage (40vh initially)
+        let bird = document.querySelector('.bird');
+        bird.style.top = bird_top + 'vh';
+
+        // Getting reference to the score element
+        let score_val = document.querySelector('.score_val');
+        let message = document.querySelector('.message');
+        let score_title = document.querySelector('.score_title');
+        // Initial game state
+        let game_state = 'Start';
+
+        document.addEventListener('pointerdown', (e) => {
+            // Handle touch and mouse click on all devices
+            if (game_state !== 'Play') {
+                resetGame();
+                play();
+            } else {
+                bird_dy = -1.7; // Jump when touching the screen
+                // Add 8-bit jump sound
+                playRetroSound(523.25, 0.1); // High C note
+            }
+        });
+
+        // Bird jump when ArrowUp or Space is pressed
+        document.addEventListener('keydown', (e) => {
+            if ((e.key === 'ArrowUp' || e.key === ' ') && game_state === 'Play') {
+                bird_dy = -1.7;  // Very small jump force
+                // Add 8-bit jump sound
+                playRetroSound(523.25, 0.1); // High C note
+            }
+        });
+
+        // Function to play retro sound effects
+        function playRetroSound(frequency, duration) {
+            try {
+                let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                let oscillator = audioContext.createOscillator();
+                let gainNode = audioContext.createGain();
+                
+                oscillator.type = 'square'; // Square wave for 8-bit sound
+                oscillator.frequency.value = frequency;
+                gainNode.gain.value = 0.1;
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.start();
+                setTimeout(() => {
+                    oscillator.stop();
+                    audioContext.close();
+                }, duration * 1000);
+            } catch (e) {
+                console.log("Audio not supported or blocked");
+            }
+        }
+
+        // Reset the game
+        function resetGame() {
+            document.querySelectorAll('.pipe_sprite').forEach(e => e.remove());
+            bird.style.top = '40vh';
+            bird_dy = 0;
+            bird_top = 40;
+            score_val.innerHTML = '0';
+            score_title.innerHTML = 'SCORE: ';
+            game_state = 'Play';
+            message.innerHTML = '';
+        }
+
+        // Main game loop
+        function play() {
+            let pipe_seperation = 0;
+
+            function move() {
+                if (game_state !== 'Play') return;
+
+                // Move pipes and check for collisions
+                let pipe_sprite = document.querySelectorAll('.pipe_sprite');
+                pipe_sprite.forEach((element) => {
+                    let pipe_props = element.getBoundingClientRect();
+                    let bird_props = bird.getBoundingClientRect();
+
+                    // Delete pipes that have moved out of screen
+                    if (pipe_props.right <= 0) {
+                        element.remove();
+                    } else {
+                        // Collision detection with bird and pipes
+                        if (
+                            bird_props.left < pipe_props.left + pipe_props.width &&
+                            bird_props.left + bird_props.width > pipe_props.left &&
+                            bird_props.top < pipe_props.top + pipe_props.height &&
+                            bird_props.top + bird_props.height > pipe_props.top
+                        ) {
+                            // Game Over condition
+                            game_state = 'End';
+                            message.innerHTML = 'GAME OVER\n<span class="restart-text">PRESS TO RESTART</span>';
+                            playRetroSound(110, 0.5); // Low A note for death
+                            return;
+                        }
+
+                        // Score logic - increase score when bird crosses pipe
+                        if (pipe_props.right < bird_props.left &&
+                            pipe_props.right + move_speed >= bird_props.left &&
+                            element.increase_score == '1') {
+                            score_val.innerHTML = +score_val.innerHTML + 1;
+                            playRetroSound(783.99, 0.1); // G5 note for scoring
+                        }
+                        element.style.left = pipe_props.left - move_speed + 'px';
+                    }
+                });
+
+                requestAnimationFrame(move);
+            }
+
+            function applyGravity() {
+                if (game_state !== 'Play') return;
+
+                bird_dy += gravity;  // Apply gravity
+                bird_top += bird_dy;  // Update bird position
+                bird.style.top = bird_top + 'vh';
+
+                // Collision detection with top and bottom of screen
+                if (bird_top <= 0 || bird_top >= window.innerHeight - 100) {
+                    game_state = 'End';
+                    message.innerHTML = 'GAME OVER\n<span class="restart-text">PRESS TO RESTART</span>';
+                    playRetroSound(110, 0.5); // Low A note for death
+                    return;
+                }
+
+                requestAnimationFrame(applyGravity);
+            }
+
+            function createPipe() {
+                if (game_state !== 'Play') return;
+
+                if (pipe_seperation > 115) {
+                    pipe_seperation = 0;
+
+                    // Randomly calculate pipe position on the y-axis
+                    let pipe_posi = Math.floor(Math.random() * 43) + 8;
+
+                    // Create and position pipe elements
+                    let pipe_top = document.createElement('div');
+                    pipe_top.className = 'pipe_sprite pipe_top';
+                    pipe_top.style.top = pipe_posi - 70 + 'vh';
+                    pipe_top.style.left = '100vw';
+                    document.body.appendChild(pipe_top);
+
+                    let pipe_bottom = document.createElement('div');
+                    pipe_bottom.className = 'pipe_sprite pipe_bottom';
+                    pipe_bottom.style.top = pipe_posi + 35 + 'vh';
+                    pipe_bottom.style.left = '100vw';
+                    pipe_bottom.increase_score = '1';
+                    document.body.appendChild(pipe_bottom);
+                }
+
+                pipe_seperation++;
+                requestAnimationFrame(createPipe);
+            }
+
+            // Start the game logic
+            requestAnimationFrame(move);
+            requestAnimationFrame(applyGravity);
+            requestAnimationFrame(createPipe);
+        }
+    </script>
+</body>
+
+</html>

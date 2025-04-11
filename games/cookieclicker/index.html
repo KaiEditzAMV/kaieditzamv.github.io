@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Clicker</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            background: #f8f8f8;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+        }
+
+        .container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+        }
+
+        header {
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: 3rem;
+            margin-bottom: 5px;
+            text-shadow: 0 0 20px rgb(0, 0, 0);
+            transition: color 0.3s ease-in-out;
+        }
+
+        h1:hover {
+            color: #000000;
+            cursor: pointer;
+        }
+
+        .btn-bar {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 5px 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        #save-button {
+            background: #4CAF50;
+        }
+
+        #reset-button {
+            background: #f44336;
+        }
+
+        #stats {
+            display: flex;
+            justify-content: space-around;
+            background: #b56d1b;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-title {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .game-area {
+            flex: 1;
+            display: flex;
+            gap: 15px;
+            overflow: hidden;
+        }
+
+        .left-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            min-width: 40%;
+        }
+
+        .right-panel {
+            flex: 1;
+            min-width: 40%;
+        }
+
+        #cookie-area {
+            flex: 1;
+            background: #fff5e6;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .cookie {
+            width: min(40vw, 40vh);
+            height: min(40vw, 40vh);
+            border-radius: 50%;
+            position: absolute;
+            transition: transform 0.1s;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            background: transparent;
+            background-image: url("../kaiz.png");
+            background-size: 229%;
+            border: 8px solid rgb(108, 54, 15);
+            background-repeat: no-repeat;
+            background-position: center;
+            transition: all 0.4s ease-out;
+        }
+
+        @keyframes float {
+            0% {
+                box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6);
+                transform: translatey(0px);
+            }
+
+            50% {
+                box-shadow: 0 25px 15px 0px rgba(0, 0, 0, 0.2);
+                transform: translatey(-20px);
+            }
+
+            100% {
+                box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6);
+                transform: translatey(0px);
+            }
+        }
+
+        .cookie:active {
+            transform: scale(0.79);
+        }
+
+        .cookie:hover {
+            box-shadow: 10px 16px 10px rgb(0, 0, 0);
+        }
+
+        .click-effect {
+            position: absolute;
+            color: #851515;
+             background-image: url("../kaiz.png");
+            font-weight: bold;
+            font-size: min(3vw, 3vh);
+            pointer-events: none;
+            animation: float 1s forwards;
+        }
+
+        @keyframes float {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: scale(1.05, 0.95);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-60px);
+            }
+        }
+
+        .prestige {
+            flex: 0 0 auto;
+            background: #a76e1e;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .prestige h3 {
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        .p-info {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .p-info p {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 15px;
+        }
+
+        #prestige-button {
+            background: #ffe4c4;
+            width: 100%;
+            padding: 10px;
+            font-size: 1.4rem;
+            color: black;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        #prestige-button:hover {
+            background: #ffcc99;
+        }
+
+        #prestige-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .upgrades {
+            background: #f1f1f1;
+            padding: 15px;
+            border-radius: 10px;
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .category {
+            margin-bottom: 15px;
+        }
+
+        .cat-header {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background: #b56d1b;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-bottom: 5px;
+            font-size: 1.2rem;
+        }
+
+        .cat-name {
+            font-weight: bold;
+            color: white;
+        }
+
+        .toggle {
+            transition: transform 0.5s;
+        }
+
+        .collapsed .toggle {
+            transform: rotate(-90deg);
+        }
+
+        .upgrade-list {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            max-height: 800px;
+            overflow: hidden;
+            transition: max-height 0.5s;
+        }
+
+        .collapsed+.upgrade-list {
+            max-height: 0;
+        }
+
+        .upgrade {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: rgb(255, 255, 255);
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .upgrade:hover:not(.disabled) {
+            background: #f5f5f5;
+        }
+
+        .upgrade.disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .upgrade.owned {
+            border-left: 5px solid #a7671e;
+        }
+
+        .upgrade-info {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .upgrade-name {
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .upgrade-desc {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .upgrade-cost {
+            font-size: 1rem;
+            color: #8b5619;
+            font-weight: bold;
+        }
+
+        .count {
+            min-width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            background: #ff3300;
+            color: white;
+            border-radius: 15px;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .game-area {
+                flex-direction: column;
+            }
+
+            .left-panel,
+            .right-panel {
+                min-width: 100%;
+            }
+
+            #cookie-area {
+                min-height: 40vh;
+            }
+
+            .cookie {
+                width: min(60vw, 30vh);
+                height: min(60vw, 30vh);
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Cookie Clicker</h1>
+            <div class="btn-bar">
+                <button id="save-button">Save</button>
+                <button id="reset-button">Reset</button>
+            </div>
+        </header>
+
+        <div id="stats">
+            <div class="stat">
+                <div class="stat-title">Cookies</div>
+                <div id="cookie-count" class="stat-value">0</div>
+            </div>
+            <div class="stat">
+                <div class="stat-title">Per Click</div>
+                <div id="cookies-per-click" class="stat-value">1</div>
+            </div>
+            <div class="stat">
+                <div class="stat-title">Bonus</div>
+                <div id="multiplier" class="stat-value">x1</div>
+            </div>
+        </div>
+
+        <div class="game-area">
+            <div class="left-panel">
+                <div id="cookie-area">
+                    <div class="cookie" id="cookie-button"></div>
+                </div>
+
+                <div class="prestige">
+                    <h3>Prestige</h3>
+                    <div class="p-info">
+                        <p>Total: <span id="total-cookies">0</span></p>
+                        <p>Points: <span id="prestige-points">0</span></p>
+                        <p>Multiplier: <span id="prestige-multiplier">1.00</span>x</p>
+                    </div>
+                    <button id="prestige-button" disabled>Ascend</button>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <div class="upgrades" id="upgrades-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+            const game = {
+            cookies: 0,
+            totalBaked: 0,
+            perClick: 1,
+            prestige: { points: 0, multiplier: 1 },
+            lastSave: Date.now(),
+            upgrades: {
+                workers: [],
+                chefs: [],
+                grandmas: [],
+                factories: [],
+                specialty: [],
+                advanced: [],
+                mystical: [],
+                cosmic: [],
+                secret: [],
+                beachgun: [],
+                cookiecrush: [],
+                CookieMafia: [],
+                glitch: [],
+                meta: [],
+                hyperdimensional: [],
+                conceptual: [],
+                abstract: [],
+                transcendent: [],
+                celestial: [],
+                artistic: [], //renamed ultimate to artistic
+                 winter: [], // New: The final tier
+            }
+        };
+
+// DOM elements
+const els = { cookieCount: document.getElementById("cookie-count"), perClick: document.getElementById("cookies-per-click"), multiplier: document.getElementById("multiplier"), cookieBtn: document.getElementById("cookie-button"), cookieArea: document.getElementById("cookie-area"), totalCookies: document.getElementById("total-cookies"), prestigePoints: document.getElementById("prestige-points"), prestigeMultiplier: document.getElementById("prestige-multiplier"), prestigeBtn: document.getElementById("prestige-button"), saveBtn: document.getElementById("save-button"), resetBtn: document.getElementById("reset-button"), upgradesContainer: document.getElementById("upgrades-container") };
+
+
+  // Upgrades data with continuous cost progression - 4 upgrades per tier
+  const upgrades = [
+            {
+                id: "workers", name: " Workers", items: [
+                    { name: "Helper", cpc: 1, cost: 50, desc: "Adds +1 cookies per click." },
+                    { name: "Baker", cpc: 5, cost: 250, desc: "Adds +5 cookies per click." },
+                    { name: "Cook", cpc: 15, cost: 900, desc: "Adds +15 cookies per click." },
+                    { name: "Chef", cpc: 50, cost: 3000, desc: "Adds +50 cookies per click." }
+                ]
+            },
+            {
+                id: "chefs", name: " Chefs", items: [
+                    { name: "Cook Helper", cpc: 150, cost: 9000, desc: "Adds +150 cookies per click." },
+                    { name: "Kitchen Staff", cpc: 500, cost: 30000, desc: "Adds +500 cookies per click." },
+                    { name: "Cookie Chef", cpc: 1500, cost: 90000, desc: "Adds +1,500 cookies per click." },
+                    { name: "Pastry Chef", cpc: 5000, cost: 300000, desc: "Adds +5,000 cookies per click." }
+                ]
+            },
+            {
+                id: "grandmas", name: " Grandmas", items: [
+                    { name: "Granny", cpc: 15000, cost: 900000, desc: "Adds +15K cookies per click." },
+                    { name: "Cool Granny", cpc: 50000, cost: 3000000, desc: "Adds +50K cookies per click." },
+                    { name: "Grandma", cpc: 150000, cost: 9000000, desc: "Adds +150K cookies per click." },
+                    { name: "Baker Granny", cpc: 500000, cost: 30000000, desc: "Adds +500K cookies per click." }
+                ]
+            },
+            {
+                id: "factories", name: " Factories", items: [
+                    { name: "Mini Factory", cpc: 1500000, cost: 90000000, desc: "Adds +1.5M cookies per click." },
+                    { name: "Small Factory", cpc: 5000000, cost: 300000000, desc: "Adds +5M cookies per click." },
+                    { name: "Basic Factory", cpc: 15000000, cost: 900000000, desc: "Adds +15M cookies per click." },
+                    { name: "Big Factory", cpc: 50000000, cost: 3000000000, desc: "Adds +50M cookies per click." }
+                ]
+            },
+            {
+                id: "specialty", name: " Specialty", items: [
+                    { name: "Bronze Mixer", cpc: 150000000, cost: 9000000000, desc: "Adds +150M cookies per click." },
+                    { name: "Silver Mixer", cpc: 500000000, cost: 30000000000, desc: "Adds +500M cookies per click." },
+                    { name: "Gold Mixer", cpc: 1500000000, cost: 90000000000, desc: "Adds +1.5B cookies per click." },
+                    { name: "Platinum Mixer", cpc: 5000000000, cost: 300000000000, desc: "Adds +5B cookies per click." }
+                ]
+            },
+            {
+                id: "advanced", name: " Advanced", items: [
+                    { name: "Dark Oven", cpc: 15000000000, cost: 900000000000, desc: "Adds +15B cookies per click." },
+                    { name: "Shadow Oven", cpc: 50000000000, cost: 3000000000000, desc: "Adds +50B cookies per click." },
+                    { name: "Void Oven", cpc: 150000000000, cost: 9000000000000, desc: "Adds +150B cookies per click." },
+                    { name: "Abyss Oven", cpc: 500000000000, cost: 30000000000000, desc: "Adds +500B cookies per click." }
+                ]
+            },
+            {
+                id: "mystical", name: " Mystical", items: [
+                    { name: "Magic Baker", cpc: 1500000000000, cost: 90000000000000, desc: "Adds +1.5T cookies per click." },
+                    { name: "Wizard Baker", cpc: 5000000000000, cost: 300000000000000, desc: "Adds +5T cookies per click." },
+                    { name: "Spell Baker", cpc: 15000000000000, cost: 900000000000000, desc: "Adds +15T cookies per click." },
+                    { name: "Star Baker", cpc: 50000000000000, cost: 3000000000000000, desc: "Adds +50T cookies per click." }
+                ]
+            },
+            {
+                id: "cosmic", name: " Cosmic", items: [
+                    { name: "Star Maker", cpc: 150000000000000, cost: 9000000000000000, desc: "Adds +150T cookies per click." },
+                    { name: "Moon Maker", cpc: 500000000000000, cost: 30000000000000000, desc: "Adds +500T cookies per click." },
+                    { name: "Planet Maker", cpc: 1500000000000000, cost: 90000000000000000, desc: "Adds +1.5Qa cookies per click." },
+                    { name: "Galaxy Maker", cpc: 5000000000000000, cost: 300000000000000000, desc: "Adds +5Qa cookies per click." }
+                ]
+            },
+            {
+                id: "secret", name: " Secret Tier", items: [
+                    { name: "Cookie Core", cpc: 15000000000000000, cost: 900000000000000000, desc: "Adds +15Qa cookies per click." },
+                    { name: "Time Warper", cpc: 50000000000000000, cost: 3000000000000000000, desc: "Adds +50Qa cookies per click." },
+                    { name: "Reality Bender", cpc: 150000000000000000, cost: 9000000000000000000, desc: "Adds +150Qa cookies per click." },
+                    { name: "Master Core", cpc: 500000000000000000, cost: 30000000000000000000, desc: "Adds +500Qa cookies per click." }
+                ]
+            },
+            {
+                id: "beachgun", name: " Beach gun Tier", items: [
+                    { name: "Coconut Cannon", cpc: 1500000000000000000, cost: 90000000000000000000, desc: "Adds +1.5Qi cookies per click." },
+                    { name: "Sandy Shooter", cpc: 5000000000000000000, cost: 300000000000000000000, desc: "Adds +5Qi cookies per click." },
+                    { name: "Tiki Blaster", cpc: 15000000000000000000, cost: 900000000000000000000, desc: "Adds +15Qi cookies per click." },
+                    { name: "Surfboard Slingshot", cpc: 50000000000000000000, cost: 3000000000000000000000, desc: "Adds +50Qi cookies per click." }
+                ]
+            },
+            {
+                id: "cookiecrush", name: " Cookie Crush Tier", items: [
+                    { name: "Cookie Cannon", cpc: 150000000000000000000, cost: 9000000000000000000000, desc: "Adds +150Qi cookies per click." },
+                    { name: "Cookie Blaster", cpc: 500000000000000000000, cost: 30000000000000000000000, desc: "Adds +500Qi cookies per click." },
+                    { name: "Oven Shotgun", cpc: 1500000000000000000000, cost: 90000000000000000000000, desc: "Adds +1.5Sx cookies per click." },
+                    { name: "Sugar Rush Rocket", cpc: 5000000000000000000000, cost: 300000000000000000000000, desc: "Adds +5Sx cookies per click." }
+                ]
+            },
+            {
+                id: "CookieMafia", name: " Cookie Mafia Tier", items: [
+                    { name: "Cookie Cartel", cpc: 15000000000000000000000, cost: 900000000000000000000000, desc: "Adds +15Sx cookies per click." },
+                    { name: "Sugar Syndicate", cpc: 50000000000000000000000, cost: 3000000000000000000000000, desc: "Adds +50Sx cookies per click." },
+                    { name: "Dough Dominators", cpc: 150000000000000000000000, cost: 30000000000000000000000000, desc: "Adds +150Sx cookies per click." },
+                    { name: "Crumb Commanders", cpc: 500000000000000000000000, cost: 90000000000000000000000000, desc: "Adds +500Sx cookies per click." }
+
+                ]
+            },
+
+            {
+                id: "glitch", name: " Glitch Tier", items: [
+                    { name: "Overflow Oven", cpc: 1500000000000000000000000, cost: 30000000000000000000000000 , desc: "Adds +1.5Sp cookies per click." }, // cost *3
+                    { name: "Duplication Glitch", cpc: 5000000000000000000000000, cost: 90000000000000000000000000 , desc: "Adds +5Sp cookies per click." },// cost *3
+                    { name: "Recursive Dough", cpc: 15000000000000000000000000, cost: 300000000000000000000000000 , desc: "Adds +15Sp cookies per click." },// cost *3
+                    { name: "Cookie Singularity", cpc: 50000000000000000000000000, cost: 900000000000000000000000000 , desc: "Adds +50Sp cookies per click." } // cost *3
+                ]
+            },
+
+            {
+                id: "meta", name: " Meta-Cookie Tier", items: [
+                    { name: "Cookie Debugger", cpc: 15000000000000000000000000, cost: 3000000000000000000000000000 , desc: "Adds +1.5Sp cookies per click." },
+                    { name: "Dough Scripting", cpc: 50000000000000000000000000, cost: 9000000000000000000000000000 , desc: "Adds +5Sp cookies per click." },
+                    { name: "Binary Batter", cpc: 150000000000000000000000000, cost: 15000000000000000000000000000 , desc: "Adds +15Sp cookies per click." },
+                    { name: "Reality Rewriter", cpc: 500000000000000000000000000, cost: 25000000000000000000000000000 , desc: "Adds +50Sp cookies per click." }
+                ]
+            },
+
+            {
+                id: "hyperdimensional", name: " Hyperdimensional Tier", items: [
+                    { name: "Tesseract Treats", cpc: 1500000000000000000000000000, cost: 50000000000000000000000000000 , desc: "Adds +1.5Oc cookies per click." },
+                    { name: "Quantic Quintessence", cpc: 5000000000000000000000000000, cost: 90000000000000000000000000000 , desc: "Adds +5Oc cookies per click." },
+                    { name: "Omnidimensional Oven", cpc: 15000000000000000000000000000, cost: 300000000000000000000000000000 , desc: "Adds +15Oc cookies per click." },
+                    { name: "Infinite Icing", cpc: 50000000000000000000000000000, cost: 900000000000000000000000000000 , desc: "Adds +50Oc cookies per click." }
+                ]
+            },
+            {
+                id: "conceptual", name: " Conceptual Cookie Tier", items: [
+                    { name: "The Idea of Cookies", cpc: 150000000000000000000000000000, cost: 3000000000000000000000000000000 , desc: "Adds +150Oc cookies per click." },
+                    { name: "Cookie Axiom", cpc: 500000000000000000000000000000, cost: 9000000000000000000000000000000 , desc: "Adds +500Oc cookies per click." },
+                    { name: "The Cookie Metaphor", cpc: 1500000000000000000000000000000, cost: 30000000000000000000000000000000 , desc: "Adds +1.5No cookies per click." },
+                    { name: "Conceptual Collapse", cpc: 5000000000000000000000000000000, cost: 90000000000000000000000000000000 , desc: "Adds +5No cookies per click." }
+                ]
+            },
+            {
+                id: "abstract", name: " Abstract Tier", items: [
+                    { name: "Dough of Nothingness", cpc: 15000000000000000000000000000000, cost: 300000000000000000000000000000000 , desc: "Adds +15No cookies per click." },
+                    { name: "The Unbaked", cpc: 50000000000000000000000000000000, cost: 900000000000000000000000000000000 , desc: "Adds +50No cookies per click." },
+                    { name: "Pure Cookie Idea", cpc: 150000000000000000000000000000000, cost: 3000000000000000000000000000000000 , desc: "Adds +150No cookies per click." },
+                    { name: "Cookie Paradox", cpc: 500000000000000000000000000000000, cost: 9000000000000000000000000000000000 , desc: "Adds +500No cookies per click." }
+                ]
+            },
+            {
+                id: "transcendent", name: " Transcendent Tier", items: [
+                    { name: "Beyond Cookie", cpc: 1500000000000000000000000000000000, cost: 30000000000000000000000000000000000 , desc: "Adds +1.5De cookies per click." },
+                    { name: "Ethereal Dough", cpc: 5000000000000000000000000000000000, cost: 90000000000000000000000000000000000 , desc: "Adds +5De cookies per click." },
+                    { name: "Limitless Batter", cpc: 15000000000000000000000000000000000, cost: 300000000000000000000000000000000000 , desc: "Adds +15De cookies per click." },
+                    { name: "Cosmic Meringue", cpc: 50000000000000000000000000000000000, cost: 900000000000000000000000000000000000 , desc: "Adds +50De cookies per click." }
+                ]
+            },
+            {
+                id: "celestial", name: " Celestial Tier", items: [
+                    { name: "Nebula Nibblers", cpc: 150000000000000000000000000000000000, cost: 3000000000000000000000000000000000000 , desc: "Adds +150De cookies per click." },
+                    { name: "Stardust Sweets", cpc: 500000000000000000000000000000000000, cost: 9000000000000000000000000000000000000 , desc: "Adds +500De cookies per click." },
+                    { name: "Quantum Quasars", cpc: 1500000000000000000000000000000000000, cost: 30000000000000000000000000000000000000 , desc: "Adds +1.5UD cookies per click." },
+                    { name: "Singularity Slices", cpc: 5000000000000000000000000000000000000, cost: 90000000000000000000000000000000000000 , desc: "Adds +5UD cookies per click." }
+                ]
+            },
+            {
+                id: "artistic", name: " Artistic Cookie Tier", items: [ //renamed ultimate
+                    { name: "Cookie Canvas", cpc: 1500000000000000000000000000000000000, cost: 87000000000000000000000000000000000000 , desc: "Adds +15 UD cookies per click." },
+                    { name: "Dough Sculptor", cpc: 5000000000000000000000000000000000000, cost: 300000000000000000000000000000000000000 , desc: "Adds +50 UD cookies per click." },
+                    { name: "Pixelated Pastries", cpc: 15000000000000000000000000000000000000, cost: 900000000000000000000000000000000000000 , desc: "Adds +150 UD cookies per click." },
+                    { name: "Masterpiece Morsels", cpc: 50000000000000000000000000000000000000, cost: 3000000000000000000000000000000000000000 * 3, desc: "Adds +500 UD cookies per click." }
+                ]
+            },
+            {
+                id: "winter", name: "❄️ Winter Cookie Tier", items: [
+                { name: "Frosty Flakes", cpc: 3000000000000000000000000000000000000000000, cost: 5000000000000000000000000000000000000000000, desc: "Adds +3Dd cookies per click." },
+                ]
+            }
+        ];
+
+    // Units array for formatting large numbers
+    const units = ["", "K", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "Non", "De", "Ud", "Dd", "Td", "Qtd", "Qnd", "Sd", "KaiNess"];
+
+        // Replace the existing fmt function with this improved version
+function fmt(num) {
+    if (num === undefined || isNaN(num)) return "0";
+    if (num < 1000) return Math.floor(num);
+    
+    const unit = Math.min(Math.floor(Math.log10(num) / 3), units.length - 1);
+    const value = (num / Math.pow(1000, unit)).toFixed(2);
+    
+    return value + units[unit];
+}
+
+        // Add decorative elements (placeholder)
+        function addChips() { console.log("Adding decorative elements to the game"); }
+
+        // Initialize upgrades UI - condensed
+        function initUpgrades() {
+            els.upgradesContainer.innerHTML = "";
+            upgrades.forEach(cat => {
+                const div = document.createElement("div");
+                div.className = "category";
+                const header = document.createElement("div");
+                header.className = "cat-header";
+                header.innerHTML = `<div class="cat-name">${cat.name}</div><div class="toggle">▼</div>`;
+                const list = document.createElement("div");
+                list.className = "upgrade-list";
+
+                cat.items.forEach((item, i) => {
+                    if (!game.upgrades[cat.id]) game.upgrades[cat.id] = [];
+                    const owned = game.upgrades[cat.id][i] || 0;
+                    const cost = Math.floor(item.cost * Math.pow(1.15, owned));
+                    const canBuy = game.cookies >= cost;
+
+                    const upgrade = document.createElement("div");
+                    upgrade.className = `upgrade${owned > 0 ? " owned" : ""}${!canBuy ? " disabled" : ""}`;
+                    upgrade.dataset.cat = cat.id;
+                    upgrade.dataset.idx = i;
+                    upgrade.innerHTML = `<div class="upgrade-info"><div class="upgrade-name">${item.name}</div><div class="upgrade-desc">${item.desc}</div><div class="upgrade-cost">${fmt(cost)} cookies</div></div><div class="count">${owned}</div>`;
+                    list.appendChild(upgrade);
+                });
+
+                header.addEventListener("click", () => header.classList.toggle("collapsed"));
+                div.appendChild(header);
+                div.appendChild(list);
+                els.upgradesContainer.appendChild(div);
+            });
+        }
+
+        // Update display - condensed
+        function updateDisplay() {
+            els.cookieCount.textContent = fmt(game.cookies);
+            els.perClick.textContent = fmt(game.perClick);
+            els.multiplier.textContent = `x${game.prestige.multiplier.toFixed(2)}`;
+            els.totalCookies.textContent = fmt(game.totalBaked);
+            els.prestigePoints.textContent = game.prestige.points;
+            els.prestigeMultiplier.textContent = game.prestige.multiplier.toFixed(2);
+            els.prestigeBtn.disabled = game.totalBaked < 1000000000000000000000000000000000000;
+        }
+
+        // Handle cookie click - condensed
+        function clickCookie(e) {
+            const amount = game.perClick * game.prestige.multiplier;
+            game.cookies += amount;
+            game.totalBaked += amount;
+
+            const effect = document.createElement("div");
+            effect.className = "click-effect";
+            effect.textContent = `+${fmt(amount)}`;
+            const rect = els.cookieArea.getBoundingClientRect();
+            const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+            const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
+            effect.style.left = `${x}px`;
+            effect.style.top = `${y}px`;
+
+            els.cookieArea.appendChild(effect);
+            setTimeout(() => effect.remove(), 1000);
+            updateDisplay();
+            initUpgrades();
+        }
+
+        // Buy upgrade - condensed
+        function buyUpgrade(cat, idx) {
+            const category = upgrades.find(c => c.id === cat);
+            if (!category) return;
+            const item = category.items[idx];
+            if (!item) return;
+
+            if (!game.upgrades[cat]) game.upgrades[cat] = [];
+            const owned = game.upgrades[cat][idx] || 0;
+            const cost = Math.floor(item.cost * Math.pow(1.15, owned));
+
+            if (game.cookies < cost) return;
+
+            game.cookies -= cost;
+            game.upgrades[cat][idx] = owned + 1;
+            if (item.cpc) game.perClick += item.cpc;
+
+            updateDisplay();
+            initUpgrades();
+        }
+
+        // Prestige function - condensed
+        function doPrestige() {
+            if (game.totalBaked < 1000000000000000000000000000000000000) return; 
+            const newPoints = Math.floor(game.totalBaked / 1000000000);
+            game.prestige.points += newPoints;
+            game.prestige.multiplier = 1 + (game.prestige.points * 0.001);
+            game.cookies = 0;
+            game.totalBaked = 0;
+            game.perClick = 1;
+            for (const cat in game.upgrades) game.upgrades[cat] = [];
+
+            updateDisplay();
+            initUpgrades();
+        }
+
+        // Save and load functions - condensed
+        function saveGame() { localStorage.setItem("cookieClickerData", JSON.stringify(game)); }
+        function loadGame() {
+            const saved = localStorage.getItem("cookieClickerData");
+            if (!saved) return;
+            try {
+                Object.assign(game, JSON.parse(saved));
+                updateDisplay();
+                initUpgrades();
+            } catch (e) { console.error("Error loading save:", e); }
+        }
+
+                // Reset game - condensed
+                function resetGame() {
+            if (!confirm("Reset all progress?")) return;
+            localStorage.removeItem("cookieClickerData");
+            //location.reload(); // Removed this line
+             // Reset game object properties
+            game.cookies = 0;
+            game.totalBaked = 0;
+            game.perClick = 1;
+            game.prestige.points = 0;
+            game.prestige.multiplier = 1;
+            game.upgrades = {
+                workers: [],
+                chefs: [],
+                grandmas: [],
+                factories: [],
+                specialty: [],
+                advanced: [],
+                mystical: [],
+                cosmic: [],
+                secret: [],
+                beachgun: [],
+                cookiecrush: [],
+                CookieMafia: [],
+                glitch: [],
+                meta: [],
+                hyperdimensional: [],
+                conceptual: [],
+                abstract: [],
+                transcendent: [],
+                celestial: [],
+                artistic: [], //renamed ultimate to artistic
+                 winter: [], // New: The final tier
+            };
+            // Update the display and upgrades UI
+            updateDisplay();
+            initUpgrades();
+        }
+
+        // Initialize game - condensed
+        function init() {
+            addChips();
+            loadGame();
+            initUpgrades();
+            updateDisplay();
+
+            els.cookieBtn.addEventListener("click", clickCookie);
+            els.cookieBtn.addEventListener("touchstart", clickCookie);
+            els.upgradesContainer.addEventListener("click", e => {
+                const upgrade = e.target.closest(".upgrade");
+                if (upgrade && !upgrade.classList.contains("disabled")) buyUpgrade(upgrade.dataset.cat, upgrade.dataset.idx);
+            });
+
+            els.saveBtn.addEventListener("click", saveGame);
+            els.resetBtn.addEventListener("click", resetGame);
+            els.prestigeBtn.addEventListener("click", doPrestige);
+
+            setInterval(saveGame, 2000); // Auto-save every 2 minutes
+        }
+
+        // Start the game
+        init();
+
+        function enhancedClickCookie(e) {
+    // Calculate amount with proper multiplication
+    const amount = game.perClick * game.prestige.multiplier;
+
+    // Update game state
+    game.cookies += amount;
+    game.totalBaked += amount;
+
+    // Create visual effect
+    const effect = document.createElement("div");
+    effect.className = "click-effect";
+    effect.textContent = `+${fmt(amount)}`;
+
+    // Get correct positioning
+    const rect = els.cookieArea.getBoundingClientRect();
+    let x, y;
+
+    if (e.clientX) {
+        // Mouse click
+        x = e.clientX - rect.left;
+        y = e.clientY - rect.top;
+    } else if (e.touches && e.touches[0]) {
+        // Touch event
+        x = e.touches[0].clientX - rect.left;
+        y = e.touches[0].clientY - rect.top;
+    } else {
+        // Fallback position (center)
+        x = rect.width / 2;
+        y = rect.height / 2;
+    }
+
+    effect.style.left = `${x}px`;
+    effect.style.top = `${y}px`;
+
+    els.cookieArea.appendChild(effect);
+    setTimeout(() => {
+         effect.remove();
+         setTimeout(initUpgrades, 0);//added timeout
+    }, 1000); // Wait for the animation to finish
+
+    // Update display IMMEDIATELY
+    updateDisplay();
+
+}
+</script>
+</body>

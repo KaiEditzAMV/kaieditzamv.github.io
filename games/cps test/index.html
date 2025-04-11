@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Click Speed Game</title>
+  <style type="text/css">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+    }
+
+    body {
+      background-color: #121212;
+      color: #e0e0e0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    .container {
+      max-width: 1000px;
+      height: auto;
+      width: 100%;
+      z-index: 1;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      color: #ffffff;
+      margin-bottom: 10px;
+      font-size: 2.5rem;
+      text-shadow: 0 0 10px rgb(255, 255, 255);
+    }
+
+    header p {
+      color: #aaa;
+      font-size: 1.5rem;
+    }
+
+    #stats-panel {
+      display: flex;
+      justify-content: space-around;
+      background-color: #1e1e1e;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      padding: 15px;
+      margin-bottom: 20px;
+      border: 1px solid #333;
+    }
+
+    .stat-box {
+      text-align: center;
+      padding: 10px;
+      flex: 1;
+      border-right: 1px solid #333;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-box:last-child {
+      border-right: none;
+    }
+
+    .stat-box h2 {
+      font-size: 16px;
+      color: #aaa;
+      margin-bottom: 5px;
+    }
+
+    .stat-box .value {
+      font-size: 28px;
+      font-weight: bold;
+      color: #ffffff;
+      position: relative;
+      z-index: 2;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    }
+
+    .pulse {
+      animation: pulse-animation 0.5s cubic-bezier(0.4, 0, 0.6, 1);
+    }
+
+    @keyframes pulse-animation {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.2);
+        color: #ff5e5e;
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    #clickarea {
+      width: 100%;
+      height: 600px;
+      border-radius: 15px;
+      background-color: #1e1e1e;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+      transition: all 0.3s;
+      border: 1px solid #333;
+    }
+
+    #clickarea:hover {
+      box-shadow: 0 6px 25px rgba(255, 59, 59, 0.2);
+    }
+
+    #clickarea.active {
+      background-color: #2a2a2a;
+      border-color: #ff3b3b;
+    }
+
+    .game-active #clickarea {
+      animation: pulse-border 2s infinite;
+    }
+
+    @keyframes pulse-border {
+      0% {
+        border-color: #333;
+      }
+      50% {
+        border-color: #ff3b3b;
+      }
+      100% {
+        border-color: #333;
+      }
+    }
+
+    #start {
+      padding: 15px 30px;
+      font-size: 20px;
+      font-weight: bold;
+      color: white;
+      background: linear-gradient(135deg, #ff3b3b, #d10000);
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(255, 59, 59, 0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    #start:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 59, 59, 0.6);
+    }
+
+    #start:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 10px rgba(255, 59, 59, 0.4);
+    }
+
+    .click-effect {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 59, 59, 0.7) 0%, rgba(255, 59, 59, 0) 70%);
+      transform: scale(0);
+      animation: clickRipple 0.8s ease-out;
+      pointer-events: none;
+    }
+
+    @keyframes clickRipple {
+      0% {
+        opacity: 1;
+        transform: scale(0);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(2);
+      }
+    }
+
+    /* Modal Results Panel */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .modal-overlay.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    #results {
+      background-color: #1e1e1e;
+      border-radius: 15px;
+      box-shadow: 0 4px 30px rgba(255, 59, 59, 0.3);
+      padding: 30px;
+      text-align: center;
+      max-width: 90%;
+      width: 400px;
+      border: 1px solid #ff3b3b;
+      transform: scale(0.8);
+      opacity: 0;
+      transition: transform 0.5s, opacity 0.5s;
+    }
+
+    .modal-overlay.visible #results {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    #results h2 {
+      color: #ff3b3b;
+      margin-bottom: 20px;
+      font-size: 2rem;
+      text-shadow: 0 0 10px rgba(255, 59, 59, 0.3);
+    }
+
+    #result-details {
+      margin-bottom: 25px;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    #result-details p {
+      margin-bottom: 15px;
+    }
+
+    #result-details strong {
+      color: #ff3b3b;
+      font-size: 24px;
+      display: inline-block;
+      text-shadow: 0 0 8px rgba(255, 59, 59, 0.4);
+    }
+
+    #play-again {
+      padding: 12px 25px;
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+      background: linear-gradient(135deg, #ff3b3b, #d10000);
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(255, 59, 59, 0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    #play-again:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 59, 59, 0.6);
+    }
+
+    .countdown {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 100px;
+      font-weight: bold;
+      color: #ff3b3b;
+      opacity: 0;
+      animation: countdown-animation 1s ease-out forwards;
+      text-shadow: 0 0 20px rgba(255, 59, 59, 0.6);
+    }
+
+    @keyframes countdown-animation {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(2);
+      }
+      20% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+      80% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0);
+      }
+    }
+    .close-btn {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background-color: #333;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 100;
+            font-family: 'Press Start 2P', cursive;
+            outline: none;
+        }
+
+        .close-btn:hover {
+            background-color: #FF0000; /* Red on hover */
+        }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .stat-box {
+        padding: 5px;
+      }
+      
+      .stat-box .value {
+        font-size: 22px;
+      }
+      
+      #start, #play-again {
+        padding: 12px 20px;
+        font-size: 16px;
+      }
+      
+      #results {
+        padding: 20px;
+      }
+      
+      #result-details {
+        font-size: 16px;
+      }
+      
+      .countdown {
+        font-size: 80px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>SPEED CLICKER</h1>
+      <p>Tap as fast as you can when the game starts!</p>
+    </header>
+
+    <div id="stats-panel">
+      <div class="stat-box">
+        <h2>Timer</h2>
+        <div id="timer" class="value">0.000</div>
+      </div>
+      <div class="stat-box">
+        <h2>Score</h2>
+        <div id="score" class="value">0</div>
+      </div>
+      <div class="stat-box">
+        <h2>Taps/s</h2>
+        <div id="clicks" class="value">0.00</div>
+      </div>
+    </div>
+
+    <div id="clickarea">
+      <button id="start">START</button>
+    </div>
+  </div>
+  <!-- Modal Results Overlay -->
+  <div class="modal-overlay">
+    <div id="results">
+      <h2>Game Results</h2>
+      <div id="result-details"></div>
+      <button id="play-again">PLAY AGAIN</button>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    // DOM References
+    const timerEl = document.getElementById("timer");
+    const scoreEl = document.getElementById("score");
+    const clicksEl = document.getElementById("clicks");
+    const startBtn = document.getElementById("start");
+    const clickArea = document.getElementById("clickarea");
+    const modalOverlay = document.querySelector(".modal-overlay");
+    const resultsEl = document.getElementById("results");
+    const resultDetailsEl = document.getElementById("result-details");
+    const playAgainBtn = document.getElementById("play-again");
+    const body = document.body;
+
+    // Game variables
+    let score;
+    let duration = 10; // 10 seconds
+    let startTime;
+    let ended = true;
+    let timerId;
+    let bestScore = 0;
+    let countdownActive = false;
+
+    // Helper functions
+    function showModal() {
+      modalOverlay.classList.add("visible");
+    }
+
+    function hideModal() {
+      modalOverlay.classList.remove("visible");
+    }
+
+    // Visual effect for clicks/taps
+    function createClickEffect(x, y) {
+      const effect = document.createElement("div");
+      effect.className = "click-effect";
+      effect.style.width = "150px";
+      effect.style.height = "150px";
+      effect.style.left = `${x - 75}px`;
+      effect.style.top = `${y - 75}px`;
+      
+      clickArea.appendChild(effect);
+      
+      // Remove the element after animation completes
+      setTimeout(() => {
+        effect.remove();
+      }, 800);
+    }
+
+    // Animation for score updates
+    function animateValue(element) {
+      element.classList.add("pulse");
+      setTimeout(() => {
+        element.classList.remove("pulse");
+      }, 500);
+    }
+
+    // Countdown animation
+    function showCountdown(number) {
+      if (countdownActive) return;
+      
+      countdownActive = true;
+      const countdown = document.createElement("div");
+      countdown.className = "countdown";
+      countdown.textContent = number;
+      clickArea.appendChild(countdown);
+      
+      setTimeout(() => {
+        countdown.remove();
+        countdownActive = false;
+      }, 1000);
+    }
+
+    // Start game function with countdown
+    function startGame() {
+      // Reset and initialize
+      hideModal();
+      hide(startBtn);
+      score = 0;
+      scoreEl.textContent = score;
+      
+      // Start countdown
+      body.classList.add("game-active");
+      
+      let count = 3;
+      showCountdown(count);
+      
+      const countdownTimer = setInterval(() => {
+        count--;
+        if (count > 0) {
+          showCountdown(count);
+        } else {
+          clearInterval(countdownTimer);
+          
+          // Start the actual game
+          clickArea.classList.add("active");
+          ended = false;
+          
+          // Get start time
+          startTime = new Date().getTime();
+          
+          // Clear any existing timers
+          if (timerId) {
+            clearInterval(timerId);
+          }
+          
+          // Create a timer
+          timerId = setInterval(function() {
+            const total = (new Date().getTime() - startTime) / 1000;
+            
+            if (total < duration) {
+              // Update timer and clicks per second
+              timerEl.textContent = total.toFixed(3);
+              clicksEl.textContent = (score / Math.max(0.001, total)).toFixed(2);
+            } else {
+              // End game
+              ended = true;
+              clearInterval(timerId);
+              endGame();
+            }
+          }, 10); // Update more frequently for smoother display
+        }
+      }, 1000);
+    }
+
+    // End game function
+    function endGame() {
+      clickArea.classList.remove("active");
+      body.classList.remove("game-active");
+      
+      // Calculate final stats
+      const clicksPerSecond = (score / duration).toFixed(2);
+      
+      // Update displayed stats
+      timerEl.textContent = duration.toFixed(3);
+      clicksEl.textContent = clicksPerSecond;
+      
+      // Update best score
+      if (score > bestScore) {
+        bestScore = score;
+      }
+      
+      // Show results
+      resultDetailsEl.innerHTML = `
+        <p>You made <strong>${score}</strong> taps in ${duration} seconds.</p>
+        <p>That's <strong>${clicksPerSecond}</strong> taps per second!</p>
+        <p>Your best score: <strong>${bestScore}</strong></p>
+      `;
+      
+      // Show modal with slight delay for better user experience
+      setTimeout(() => {
+        showModal();
+      }, 300);
+    }
+
+    // Function to show start button
+    function show(elem) {
+      elem.style.display = "inline-block";
+    }
+
+    // Function to hide an element
+    function hide(elem) {
+      elem.style.display = "none";
+    }
+
+    // Detect if using touch device
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    
+    // Event Listeners for both mouse and touch
+    startBtn.addEventListener(isTouchDevice ? "touchstart" : "click", function(e) {
+      e.preventDefault();
+      e.stopPropagation(); // Prevent the click from being counted
+      startGame();
+    }, { passive: false });
+
+    playAgainBtn.addEventListener(isTouchDevice ? "touchstart" : "click", function(e) {
+      e.preventDefault();
+      startGame();
+    }, { passive: false });
+
+    // Close modal when clicking outside results
+    modalOverlay.addEventListener(isTouchDevice ? "touchstart" : "click", function(e) {
+      if (e.target === modalOverlay) {
+        hideModal();
+        show(startBtn);
+      }
+    }, { passive: false });
+
+    // Handle both mouse clicks and touch events
+    if (isTouchDevice) {
+      clickArea.addEventListener("touchstart", function(e) {
+        e.preventDefault();
+        if (!ended && !countdownActive) {
+          // Update score
+          score++;
+          scoreEl.textContent = score;
+          animateValue(scoreEl);
+          
+          // Get touch position
+          const touch = e.touches[0];
+          const rect = clickArea.getBoundingClientRect();
+          const x = touch.clientX - rect.left;
+          const y = touch.clientY - rect.top;
+          
+          // Create visual effect at touch position
+          createClickEffect(x, y);
+        }
+      }, { passive: false });
+    } else {
+      clickArea.addEventListener("click", function(e) {
+        if (!ended && !countdownActive) {
+          // Update score
+          score++;
+          scoreEl.textContent = score;
+          animateValue(scoreEl);
+          
+          // Create visual effect at click position
+          createClickEffect(e.offsetX, e.offsetY);
+        }
+      });
+    }
+
+    // Prevent spacebar from triggering button click
+    window.addEventListener("keydown", function(e) {
+      if (e.code === "Space" && e.target === document.body) {
+        e.preventDefault();
+      }
+    });
+
+    // Handle window resize to ensure mobile compatibility
+    window.addEventListener("resize", function() {
+      // Adjust any necessary styles based on screen size
+    });
+  </script>
+</body>
+</html>
