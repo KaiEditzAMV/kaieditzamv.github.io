@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-     <!--adsense-->
-     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5484266396833706"
-     crossorigin="anonymous"></script>
+
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -62,9 +60,9 @@
             image-rendering: pixelated;
             border: none;
             border-radius: 0;
-            background-image: linear-gradient(to right, 
-                #005700 0%, #005700 40%, 
-                #008800 40%, #008800 60%, 
+            background-image: linear-gradient(to right,
+                #005700 0%, #005700 40%,
+                #008800 40%, #008800 60%,
                 #005700 60%, #005700 100%);
         }
 
@@ -76,9 +74,9 @@
             width: 120%;
             height: 30px;
             left: -10%;
-            background-image: linear-gradient(to right, 
-                #005700 0%, #005700 40%, 
-                #008800 40%, #008800 60%, 
+            background-image: linear-gradient(to right,
+                #005700 0%, #005700 40%,
+                #008800 40%, #008800 60%,
                 #005700 60%, #005700 100%);
         }
 
@@ -117,7 +115,7 @@
             white-space: pre;
             line-height: 1.5;
         }
-        
+
         .restart-text {
             color: #FF0000;
             text-shadow: 3px 3px 0 #000;
@@ -249,14 +247,14 @@
                 let audioContext = new (window.AudioContext || window.webkitAudioContext)();
                 let oscillator = audioContext.createOscillator();
                 let gainNode = audioContext.createGain();
-                
+
                 oscillator.type = 'square'; // Square wave for 8-bit sound
                 oscillator.frequency.value = frequency;
                 gainNode.gain.value = 0.1;
-                
+
                 oscillator.connect(gainNode);
                 gainNode.connect(audioContext.destination);
-                
+
                 oscillator.start();
                 setTimeout(() => {
                     oscillator.stop();

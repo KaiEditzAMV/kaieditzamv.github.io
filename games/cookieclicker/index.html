@@ -643,15 +643,15 @@ const els = { cookieCount: document.getElementById("cookie-count"), perClick: do
 function fmt(num) {
     if (num === undefined || isNaN(num)) return "0";
     if (num < 1000) return Math.floor(num);
-    
+
     const unit = Math.min(Math.floor(Math.log10(num) / 3), units.length - 1);
     const value = (num / Math.pow(1000, unit)).toFixed(2);
-    
+
     return value + units[unit];
 }
 
         // Add decorative elements (placeholder)
-        function addChips() { console.log("Adding decorative elements to the game"); }
+      //  function addChips() { console.log("Adding decorative elements to the game"); }
 
         // Initialize upgrades UI - condensed
         function initUpgrades() {
@@ -741,7 +741,7 @@ function fmt(num) {
 
         // Prestige function - condensed
         function doPrestige() {
-            if (game.totalBaked < 1000000000000000000000000000000000000) return; 
+            if (game.totalBaked < 1000000000000000000000000000000000000) return;
             const newPoints = Math.floor(game.totalBaked / 1000000000);
             game.prestige.points += newPoints;
             game.prestige.multiplier = 1 + (game.prestige.points * 0.001);

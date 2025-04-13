@@ -1,15 +1,20 @@
-<!-- Updated index.html with Easter Egg Game in Credits Popup -->
+<!-- Coded by Mystic. All bugs and issues should be reported on the github issue tracker or by DMing me on Discord (mysicccs0). Version 1.5. -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kai's Website</title>
   <link rel="icon" href="KaiEditzAMV.jpg">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet"> <!--Comic Neue font for fun -->
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+  <!--Comic Neue font for credits -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
   <header>
     <h1>Kai's Website</h1>
@@ -19,28 +24,35 @@
       <h2>Welcome to Kai's World of Editing!</h2>
       <div class="content-card">
         <h3>About Me</h3>
-        <p>I’m Kai, an anime video editor who loves crafting smooth transitions and dynamic edits. I mainly edit with CapCut but will be switching to After Effects soon. Anime and editing are my biggest passions—I’m always looking for ways to improve and take my work to the next level. When I’m not editing, I’m probably enjoying some Alfredo or hanging out in mischievous acts.</p>
+        <p>I’m Kai, an anime video editor who loves crafting smooth transitions and dynamic edits. I mainly edit with
+          CapCut but will be switching to After Effects soon. Anime and editing are my biggest passions—I’m always
+          looking for ways to improve and take my work to the next level. When I’m not editing, I’m probably enjoying
+          some Alfredo or hanging out in mischievous acts.</p>
       </div>
       <div class="content-card">
         <h3>My Editing Style</h3>
-        <p>I create anime music videos (AMVs) that match the vibe of the anime with smooth transitions and effects. I also do character edits, highlighting specific characters and their best moments. I love reworking classic anime scenes with clean effects and pacing, and I focus on smooth, impactful transitions that keep the flow. Additionally, I explore different anime themes, capturing their essence visually in my edits.</p>
+        <p>I create anime music videos (AMVs) that match the vibe of the anime with smooth transitions and effects. I
+          also do character edits, highlighting specific characters and their best moments. I love reworking classic
+          anime scenes with clean effects and pacing, and I focus on smooth, impactful transitions that keep the flow.
+          Additionally, I explore different anime themes, capturing their essence visually in my edits.</p>
       </div>
       <div class="content-card">
         <h3>My Future Goals</h3>
         <p>
-          •  Learn advanced animation techniques and integrate them into my edits and videos.
+          • Learn advanced animation techniques and integrate them into my edits and videos.
           <br>
-          •  Get better at After Effects and improve the quality of my AMVs and montages.
+          • Get better at After Effects and improve the quality of my AMVs and montages.
           <br>
-          •  Explore the world of 3D animation and start creating immersive and visually stunning pieces.
+          • Explore the world of 3D animation and start creating immersive and visually stunning pieces.
           <br>
-          •  Work with other talented creators to collaborate on exciting projects and expand my network in the industry.
+          • Work with other talented creators to collaborate on exciting projects and expand my network in the industry.
           <br>
-          •  Learn more about design and IT to combine creativity with technology, and potentially work in the tech/design industry.
+          • Learn more about design and IT to combine creativity with technology, and potentially work in the
+          tech/design industry.
           <br>
-      </p>
+        </p>
       </div>
-     <!-- <div class="content-card">
+      <!-- Old Removed Card <div class="content-card">
         <h3>Join the Community</h3>
         <p>Subscribe to the channel, comment on videos, and join live streams to become part of the growing editing family.</p>
       </div> -->
@@ -52,69 +64,531 @@
     </div>
   </div>
   <script>
-    const API_KEY = 'AIzaSyB1QyukyZw2jNdqxgKIdaiJS0k0GxzUhl4';
-    const CHANNEL_ID = 'UCevCpDPeubbg8xAdNeIQEAA';
-    const MAX_RESULTS = 3;
+    // mystic made this code. Thanks for visiting the website! <3
+    // This code fetches the latest videos from a YouTube channel and displays them in an iframe format.
+    // The channel ID and API key are used to access the YouTube Data API.
+    // The videos are displayed in a grid layout with a maximum of 3 results.
+    // The videos are embedded in iframes with a border and rounded corners for a visually appealing look.
+    // The API key is used to authenticate the request to the YouTube Data API.
+    // The channel ID is used to specify which channel's videos to fetch.
+
+    // @KaiEditzAMV channel id and api key.
+    const API_KEY = 'AIzaSyC2f7Wxc7x7sRYe95IXbO0BPhA4tPAPxHw';
+    const CHANNEL_ID = 'UCevCpDPeubbg8xAdNeIQEAA'; // Kai's channel ID
+    const MAX_RESULTS = 3; // Maximum number of videos to fetch
     async function fetchVideos() {
-        const response = await fetch(`https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=id&order=date&maxResults=${MAX_RESULTS}`);
-        const data = await response.json();
-        const videoContainer = document.getElementById("videoList");
-        data.items.forEach(video => {
-            if (video.id.videoId) {
-                const videoFrame = document.createElement("iframe");
-                videoFrame.src = `https://www.youtube.com/embed/${video.id.videoId}`;
-                videoFrame.allowFullscreen = true;
-                videoFrame.style.borderRadius = '15px';
-                videoFrame.style.border = '5px solid #1e1e2f';
-                videoContainer.appendChild(videoFrame);
-            }
-        });
+      const response = await fetch(`https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=id&order=date&maxResults=${MAX_RESULTS}`);
+      const data = await response.json();
+      const videoContainer = document.getElementById("videoList");
+      data.items.forEach(video => {
+        if (video.id.videoId) {
+          const videoFrame = document.createElement("iframe");
+          videoFrame.src = `https://www.youtube.com/embed/${video.id.videoId}`;
+          videoFrame.allowFullscreen = true;
+          videoFrame.style.borderRadius = '15px';
+          videoFrame.style.border = '5px solid #1e1e2f';
+          videoContainer.appendChild(videoFrame);
+        }
+      });
     }
     fetchVideos();
+
+
   </script>
+
+  <div style="display: flex; gap: 20px;">
+
+    <section style="justify-content: center; align-items: center; margin: auto;">
+      <div class="container" style="width: fit-content; justify-content: center; align-items: center; margin: auto;">
+        <div class="main-content" style="width: 1700px; justify-content: center; align-items: center; margin: auto; background-image: url('bg-whatimdoing.webp'); background-size: cover; background-position: center;  background-repeat: no-repeat;">
+          <h2>What I'm Doing</h2>
+
+          <!-- Top Row: Two side-by-side cards -->
+          <div class="top-row" style="display: flex; flex-wrap: wrap; gap: 20px;">
+            <!-- Left Card: My Blender Renders -->
+            <div class="content-card" style="width: 1500px; margin: auto; padding: 20px; text-align: center;">
+              <h2 class="section-title">My Blender Renders</h2>
+              <div class="image-grid"
+                style="display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 40px; padding: 20px; justify-content: center; align-items: center;">
+                <!-- Image 1 -->
+                <div class="blender"
+                  style="flex: 0 0 auto; width: 300px; height: 400px; display: flex; justify-content: center; align-items: center; position: relative;">
+                  <img src="LaptopPhoto.png" style="border-radius: 15px; width: 200px; transform: rotate(-90deg);">
+                </div>
+                <br>
+                <!-- Image 2 -->
+                <div class="blender"
+                  style="flex: 0 0 auto; width: 400px; display: flex; justify-content: center; align-items: center; position: relative;">
+                  <img src="CarPhoto.png" style="border-radius: 15px; width: 400px;">
+                </div>
+                <!-- Image 3 -->
+                <div class="blender"
+                  style="flex: 0 0 auto; width: 400px; display: flex; justify-content: center; align-items: center; position: relative;">
+                  <img src="GrassPhoto.webp" style="border-radius: 15px; width: 400px;">
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Card: What I'm Learning -->
+            <div class="content-card" style="width: 1500px; margin: 20px auto; padding: 20px; text-align: center;">
+              <h2>What I'm Learning</h2>
+              <div class="skills-category">
+                <div class="skills learning-skills">
+                  <div class="skills-grid">
+                    <div class="skill-card learning-card">
+                      <h3>Blender</h3>
+                      <p>Learning 3D modeling and animation to enhance my video editing capabilities.</p>
+                      <div class="progress-bar">
+                        <div class="progress learning-progress" style="width: 5%; background: #4caf50; height: 100%;">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="skill-card learning-card">
+                      <h3>Game Development</h3>
+                      <p>Currently learning Roblox Studio for beginner game development.</p>
+                      <div class="progress-bar">
+                        <div class="progress learning-progress" style="width: 0%; background: #4caf50; height: 100%;">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="skill-card learning-card">
+                      <h3>Photography</h3>
+                      <p>Learning photography for fun!</p>
+                      <div class="progress-bar" style="margin-top: 30px;">
+                        <div class="progress learning-progress" style="width: 7%; background: #4caf50; height: 100%;">
+                        </div>
+                      </div>
+                    </div>
+                  </div> <!-- end skills-grid -->
+                </div> <!-- end learning-skills -->
+              </div> <!-- end skills-category -->
+            </div>
+          </div> <!-- end top-row -->
+
+          <!-- Current Skills Card: What I Know -->
+          <div class="content-card" style="width: 1500px; margin: 20px auto; padding: 20px; text-align: center;">
+            <h2>What I Know</h2>
+            <div class="skills-category">
+              <div class="skills">
+                <div class="skills-grid">
+                  <div class="skill-card">
+                    <h3>CapCut</h3>
+                    <p>3 years of experience creating engaging video content, transitions, and effects.</p>
+                    <div class="progress-bar">
+                      <div class="progress" style="width: 60%; background: #4caf50; height: 100%;"></div>
+                    </div>
+                  </div>
+                  <div class="skill-card">
+                    <h3>Web Development</h3>
+                    <p>Basic skills in HTML, CSS, and JavaScript for website creation.</p>
+                    <div class="progress-bar">
+                      <div class="progress" style="width: 30%; background: #4caf50; height: 100%;"></div>
+                    </div>
+                  </div>
+                </div> <!-- end skills-grid -->
+              </div> <!-- end skills -->
+            </div> <!-- end skills-category -->
+          </div> <!-- end What I Know card -->
+
+          <!-- Bottom Row: Photography Carousel -->
+          <div class="content-card" style="width: 1500px; margin: 40px auto; padding: 20px; text-align: center;">
+            <h2>My Photography</h2>
+            <p>I'm currently learning photography and exploring different styles and techniques. Here are some of my
+              recent captures.</p>
+            <div class="photography-carousel">
+              <div class="carousel-container">
+                <div class="carousel-track">
+                  <div class="photo-item">
+                    <img src="muffin.jpg.jpg" alt="Photography sample 1" class="photo-img">
+                  </div>
+                  <div class="photo-item">
+                    <img src="bjkh.png.JPG" alt="Photography sample 2" class="photo-img">
+                  </div>
+                  <div class="photo-item">
+                    <img src="rubik.png.jpg" alt="Photography sample 3" class="photo-img">
+                  </div>
+                  <div class="photo-item">
+                    <img src="PHOTO 4.jpg" alt="Photography sample 4" class="photo-img">
+                  </div>
+                  <div class="photo-item">
+                    <img src="PHOTO5.PNG.jpg" alt="Photography sample 5" class="photo-img">
+                  </div>
+                  <div class="photo-item">
+                    <img src="PHOTO6.jpg" alt="Photography sample 6" class="photo-img">
+                  </div>
+                  <!-- Duplicate images for continuous scrolling effect -->
+                  <div class="photo-item">
+                    <img src="muffin.jpg.jpg" alt="Photography sample 1" class="photo-img">
+                  </div>
+                  <div class="photo-item">
+                    <img src="bjkh.png.JPG" alt="Photography sample 2" class="photo-img">
+                  </div>
+                  <div class="photo-item">
+                    <img src="rubik.png.jpg" alt="Photography sample 3" class="photo-img">
+                  </div>
+                  <div class="photo-item">
+                    <img src="PHOTO 4.jpg" alt="Photography sample 4" class="photo-img">
+                  </div>
+                  <div class="photo-item">
+                    <img src="PHOTO5.PNG.jpg" alt="Photography sample 5" class="photo-img">
+                  </div>
+                  <div class="photo-item">
+                    <img src="PHOTO6.jpg" alt="Photography sample 6" class="photo-img">
+                  </div>
+                </div> <!-- end carousel-track -->
+              </div> <!-- end carousel-container -->
+            </div> <!-- end photography-carousel -->
+          </div> <!-- end Photography content-card -->
+
+        </div> <!-- end main-content -->
+      </div> <!-- end container -->
+    </section>
+
+
+    <!-- Right Section: New Section with Blank Content Card
+ <section>
+  <div class="container" style="width: fit-content;">
+    <div class="main-content">
+    <div class="content-card" style="margin: 20px; padding: 20px; text-align: center;">
+
+    </div>
+  </div>
+</div>
+</section>
+-->
+  </div>
+
   <footer style="text-align: center;">
     <nav>
       <a href="htps://youtube.com/@KaiEditzAMV">Content</a>
       <a href="https://discord.gg/UtzrtbYfu2">Contact</a>
       <a href="https://www.fiverr.com/s/yvmq8W6">Want an edit?</a>
       <!-- Credits link opens the popup -->
-      <a href="javascript:void(0);" onclick="document.getElementById('creditsPopup').style.display = 'block'">Credits</a>
+      <a href="javascript:void(0);"
+        onclick="document.getElementById('creditsPopup').style.display = 'block'">Credits</a>
       <a href="javascript:void(0);" onclick="document.getElementById('linksPopup').style.display = 'block'">Socials</a>
     </nav>
   </footer>
   <!-- Credits Popup with Easter Egg Game -->
   <div id="creditsPopup">
     <div class="popup">
-      <button class="close-btn" onclick="document.getElementById('creditsPopup').style.display = 'none'" >✖</button>
+      <button class="close-btn" onclick="document.getElementById('creditsPopup').style.display = 'none'">✖</button>
       <div id="creditsContent">
         <h2 class="popup-title">Website Credits</h2>
         <p class="popup-content">Made with ❤️ by MysticCCS (mysticccs0 on Discord).</p>
-        <button class="invite-btn" onclick="startEasterEggGame()">???</button>
+        <strong>
+          <p class="popup-content">Website Version 1.5 </p>
+        </strong>
+        <button class="invite-btn" onclick="startEasterEggGame()"
+          style="font-family: 'Comic Neue', 'sans-serif';">Games</button>
       </div>
-     <div id="easterEggGame" style="display: none;">
-      <button class="close-btn" onclick="exitEasterEggGame()">✖</button>
-        <h2 class="popup-title">Easter Egg Game</h2>
-        <canvas id="gameCanvas" width="300" height="200" style="background: #000; display: block; margin: auto; border-radius: 15px;"></canvas>
-        <p id="gameScore" style="text-align: center; color: #fff;">Score: 0</p>
-        <p style="text-align: center; color: #fff;">Click the circle to score points!</p>
+      <div id="easterEggGame" style="display: none;">
+        <button class="close-btn" onclick="exitEasterEggGame()">✖</button>
+        <h2 class="popup-title" style="font-family: 'Press Start 2P';">Select Game</h2>
+        <p style="text-align: center;">Click the image of the game you want to play!</p>
+        <br>
+        <p style="text-align: center;">All of these games, except Space Dodgers (which I modifed to be vertical instead of horizontal) and Click The Circle (which I made as the orignal easter egg) were made by Kai on his Wave Gaming website.</p>
+        <div style="text-align: center; margin-top: 20px;">
+          <a href="https://wavegaming.xyz/" target="_blank" style="text-decoration: none; color: #1e1e2f; font-size: 16px;">Click me to check out Wave Gaming!</a>
+        </div>
+        <br>
+
+        <!-- Top row: Games 1-4 -->
+        <div id="topRowGames" style="display: flex; justify-content: center; gap: 40px;">
+          <!-- Game 1 -->
+          <figure style="margin: 0; text-align: center; cursor: pointer;">
+            <img src="./games/sdfbc.PNG" alt="Rocket Dodgers"
+                 style="display: block; width: 105px; height: 100px; border-radius: 10px;"
+                 onclick="startSpaceDestroyer()"
+                 class="game-image">
+            <figcaption>Space Dodgers</figcaption>
+          </figure>
+
+          <!-- Game 2 -->
+          <figure style="margin: 0; text-align: center; cursor: pointer;">
+            <img src="./games/cc.png" alt="Cookie Clicker"
+                 style="display: block; width: 105px; height: 100px; border-radius: 10px;"
+                 onclick="startCookieClicker()"
+                 class="game-image">
+            <figcaption>Cookie Clicker</figcaption>
+            <figcaption>(W.I.P)</figcaption>
+          </figure>
+
+          <!-- Game 3 -->
+          <figure style="margin: 0; text-align: center; cursor: pointer;">
+            <img src="./games/flappybird.png" alt="Flappy Bird"
+                 style="display: block; width: 105px; height: 100px; border-radius: 10px;"
+                 onclick="startFlappyBird()"
+                 class="game-image">
+            <figcaption>Flappy Bird</figcaption>
+          </figure>
+
+          <!-- Game 4 -->
+          <figure style="margin: 0; text-align: center; cursor: pointer;">
+            <img src="./games/cps.png" alt="CPS Test"
+                 style="display: block; width: 105px; height: 100px; border-radius: 10px;"
+                 onclick="startCPSTest()"
+                 class="game-image">
+            <figcaption>CPS Test</figcaption>
+          </figure>
+        </div>
+
+        <br>
+
+        <!-- Bottom row -->
+        <div id="bottomRowGames" style="display: flex; justify-content: center; gap: 40px;">
+          <!-- Game 5 -->
+          <figure style="margin: 0; text-align: center; cursor: pointer;">
+            <img src="./games/dpc.jpg" alt="Draw A Perfect Circle"
+                 style="display: block; width: 105px; height: 100px; border-radius: 10px;"
+                 onclick="startDPC()"
+                 class="game-image">
+            <figcaption>Draw <br> A Perfect <br> Circle</figcaption>
+          </figure>
+
+          <!-- Game 6 -->
+          <figure style="margin: 0; text-align: center; cursor: pointer;">
+            <img src="./games/rps.jpeg" alt="Rock Paper Scissors"
+                 style="display: block; width: 105px; height: 100px; border-radius: 10px;"
+                 onclick="startRPS()"
+                 class="game-image">
+            <figcaption>Rock, <br> Paper, <br> Scissors</figcaption>
+          </figure>
+
+          <!-- Game 7 -->
+          <figure style="margin: 0; text-align: center; cursor: pointer;">
+            <img src="./games/gtm.jpg" alt= "Guess The Number"
+                 style="display: block; width: 105px; height: 100px; border-radius: 10px;"
+                 onclick="startGTM() // This game is broken and doesn't work."
+                 class="game-image">
+            <figcaption>Guess The <br> Number <br> (BROKEN!)</figcaption>
+          </figure>
+
+          <!-- Game 8 -->
+          <figure style="margin: 0; text-align: center; cursor: pointer;">
+            <img src="./games/clickthecircle.png" alt="Flappy Bird"
+                 style="display: block; width: 105px; height: 100px; border-radius: 10px;"
+                 onclick="startCTC()"
+                 class="game-image">
+            <figcaption>Click The <br> Circle</figcaption>
+          </figure>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+
+
+  <div id="SpaceDestroyer" style="display: none;">
+    <div class="popup">
+      <button class="close-btn" onclick="exitSpaceDestroyer()">✖</button>
+      <h2 class="popup-title" style="font-family: 'Press Start 2P', 'sans-serif';">Space Dodgers</h2>
+      <p class="popup-content" style="font-family: 'Press Start 2P', 'sans-serif';">Dodge asteroids and collect points!</p>
+      <div id="gameArea"
+        style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
+        <iframe src="./games/spacedodgers/index.html" frameborder="0"
+          style="width: 800px; height: 600px; border-radius: 10px;"></iframe>
+      </div>
+    </div>
+  </div>
+  <div id="CookieClicker" style="display: none;">
+    <div class="popup">
+      <button class="close-btn" onclick="exitCookieClicker()">✖</button>
+      <h2 class="popup-title" style="font-family: 'Comic Neue', 'sans-serif';">Cookie Clicker</h2>
+      <p class="popup-content" style="font-family: 'Comic Neue', 'sans-serif';">Bake the most cookies!</p>
+      <div id="gameArea"
+        style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
+        <iframe src="./games/cookieclicker/index.html" frameborder="0"
+          style="width: 16000px; height: 17000px; border-radius: 10px;"></iframe>
+      </div>
+    </div>
+  </div>
+  <div id="Flappy Bird" style="display: none;">
+    <div class="popup">
+      <button class="close-btn" onclick="exitFlappyBird()">✖</button>
+      <h2 class="popup-title" style="font-family: 'Press Start 2P', 'sans-serif';">Flappy Bird</h2>
+      <p class="popup-content" style="font-family: 'Comic Neue', 'sans-serif';">Don't hit the green pipes!</p>
+      <div id="gameArea"
+        style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
+        <iframe src="./games/flappybird/index.html" frameborder="0"
+          style="width: 800px; height: 600px; border-radius: 10px;"></iframe>
+      </div>
+    </div>
+  </div>
+  <div id="CPSTest" style="display: none;">
+    <div class="popup">
+      <button class="close-btn" onclick="exitCPSTest()">✖</button>
+      <h2 class="popup-title" style="font-family: 'Press Start 2P', 'sans-serif';">CPS Test</h2>
+      <p class="popup-content" style="font-family: 'Comic Neue', 'sans-serif';">Can you click the fastest?</p>
+      <div id="gameArea"
+        style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
+        <iframe src="./games/cps test/index.html" frameborder="0"
+          style="width: 1280px; height: 720px; border-radius: 10px;"></iframe>
+      </div>
+    </div>
+  </div>
+  <div id="DPC" style="display: none;">
+    <div class="popup">
+      <button class="close-btn" onclick="exitDPC()">✖</button>
+      <h2 class="popup-title" style="font-family: 'Press Start 2P', 'sans-serif';">Draw A Perfect Circle</h2>
+      <p class="popup-content" style="font-family: 'Comic Neue', 'sans-serif';">Can you draw the best circle?</p>
+      <div id="gameArea"
+        style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
+        <iframe src="./games/dpc/dpc.html" frameborder="0"
+          style="width: 1280px; height: 720px; border-radius: 10px;"></iframe>
+      </div>
+    </div>
+  </div>
+  <div id="RPS" style="display: none;">
+    <div class="popup">
+      <button class="close-btn" onclick="exitRPS()">✖</button>
+      <h2 class="popup-title" style="font-family: 'Press Start 2P', 'sans-serif';">Rock, Paper, Scissors</h2>
+      <p class="popup-content" style="font-family: 'Comic Neue', 'sans-serif';">Beat the Computer!</p>
+      <div id="gameArea"
+        style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
+        <iframe src="./games/rps/index.html" frameborder="0"
+          style="width: 800px; height: 500px; border-radius: 10px;"></iframe>
+      </div>
+    </div>
+  </div>
+  <div id="GTM" style="display: none;">
+    <div class="popup">
+      <button class="close-btn" onclick="exitGTM()">✖</button>
+      <h2 class="popup-title" style="font-family: 'Press Start 2P', 'sans-serif';">Guess The Number</h2>
+      <p class="popup-content" style="font-family: 'Comic Neue', 'sans-serif';">Can you guess every number and unlock Ultra Extreme difficulty?</p>
+      <div id="gameArea"
+        style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
+        <iframe src="./games/guessthenum/index.html" frameborder="0"
+          style="width: 800px; height: 600px; border-radius: 10px;"></iframe>
       </div>
     </div>
   </div>
 
+  <div id="CTC" style="display: none;">
+    <div class="popup" style="font-family: 'Comic Neue', 'sans-serif';">
+    <button class="close-btn" onclick="exitCTC()">✖</button>
+      <h2 class="popup-title">Easter Egg Game</h2>
+      <canvas id="gameCanvas" width="300" height="200" style="background: #000; display: block; margin: auto; border-radius: 15px;"></canvas>
+      <p id="gameScore" style="text-align: center; color: #fff;">Score: 0</p>
+      <p style="text-align: center; color: #fff;">Click the circle to score points!</p>
+    </div>
+  </div>
+</div>
 
+
+  <!--Game Start and Exit Scripts-->
   <script>
-    function startgameSelect() {
-      document.getElementById('creditsContent').style.display = 'block';
-      document.getElementById('creditsPopup').style.display = 'none'; // Hide the credits popup when starting the game select
+    function startSpaceDestroyer() {
+      document.getElementById('easterEggGame').style.display = 'none';
+      document.getElementById('SpaceDestroyer').style.display = 'block';
     }
   </script>
   <script>
-      function exitEasterEggGame() {
-        // Hide the game area and show the original game select content
+    function exitSpaceDestroyer() {
+      document.getElementById('easterEggGame').style.display = 'block';
+      document.getElementById('SpaceDestroyer').style.display = 'none';
+    }
+  </script>
+
+  <script>
+    function startCookieClicker() {
+      document.getElementById('easterEggGame').style.display = 'none';
+      document.getElementById('CookieClicker').style.display = 'block';
+    }
+  </script>
+  <script>
+    function exitCookieClicker() {
+      document.getElementById('easterEggGame').style.display = 'block';
+      document.getElementById('CookieClicker').style.display = 'none';
+    }
+  </script>
+
+  <script>
+    function startFlappyBird() {
+      document.getElementById('easterEggGame').style.display = 'none';
+      document.getElementById('Flappy Bird').style.display = 'block';
+    }
+  </script>
+  <script>
+    function exitFlappyBird() {
+      document.getElementById('easterEggGame').style.display = 'block';
+      document.getElementById('Flappy Bird').style.display = 'none';
+    }
+  </script>
+
+    <script>
+      function startCPSTest() {
         document.getElementById('easterEggGame').style.display = 'none';
-        document.getElementById('creditsContent').style.display = 'block';
-        document.getElementById('exit-btn').style.display = 'none'; // Hide the exit button when exiting the game
+        document.getElementById('CPSTest').style.display = 'block';
       }
+    </script>
+  <script>
+    function exitCPSTest() {
+      document.getElementById('easterEggGame').style.display = 'block';
+      document.getElementById('CPSTest').style.display = 'none';
+    }
+  </script>
+
+      <script>
+        function startDPC() {
+          document.getElementById('easterEggGame').style.display = 'none';
+          document.getElementById('DPC').style.display = 'block';
+        }
+      </script>
+    <script>
+      function exitDPC() {
+        document.getElementById('easterEggGame').style.display = 'block';
+        document.getElementById('DPC').style.display = 'none';
+      }
+    </script>
+    <script>
+      function startRPS() {
+        document.getElementById('easterEggGame').style.display = 'none';
+        document.getElementById('RPS').style.display = 'block';
+      }
+    </script>
+
+  <script>
+    function exitRPS() {
+      document.getElementById('easterEggGame').style.display = 'block';
+      document.getElementById('RPS').style.display = 'none';
+    }
+  </script>
+    <script>
+      function startGTM() {
+        document.getElementById('easterEggGame').style.display = 'none';
+        document.getElementById('GTM').style.display = 'block';
+      }
+    </script>
+  <script>
+    function exitGTM() {
+      document.getElementById('easterEggGame').style.display = 'block';
+      document.getElementById('GTM').style.display = 'none';
+    }
+  </script>
+      <script>
+        function startCTC() {
+          document.getElementById('easterEggGame').style.display = 'none';
+          document.getElementById('CTC').style.display = 'block';
+          initGame();
+        }
+      </script>
+    <script>
+      function exitCTC() {
+        document.getElementById('easterEggGame').style.display = 'block';
+        document.getElementById('CTC').style.display = 'none';
+      }
+    </script>
+
+  <script>
+    function exitEasterEggGame() {
+      // Hide the game area and show the original game select content
+      document.getElementById('easterEggGame').style.display = 'none';
+      document.getElementById('creditsContent').style.display = 'block';
+      document.getElementById('exit-btn').style.display = 'none'; // Hide the exit button when exiting the game - not needed anymore
+    }
   </script>
   <!-- Was used for testing close funtionality of exitEasterEggGame. -->
   <!-- <div id="exit-btn">
@@ -143,26 +617,30 @@
       </p>
       <div class="social-links">
         <a href="https://www.youtube.com/@KaiEditzAMV" target="_blank">
-          <img src="KaiEditzAMV.jpg" alt="@KaiEditzAMV" style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 5px solid #1e1e2f; transition: transform 0.5s;">
+          <img src="KaiEditzAMV.jpg" alt="@KaiEditzAMV"
+            style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 5px solid #1e1e2f; transition: transform 0.5s;">
         </a>
         <a href="https://www.youtube.com/@kaimemez" target="_blank">
-          <img src="KaiMemes.jpg" alt="@KaiMemeZ" style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 5px solid #1e1e2f; transition: transform 0.5s;">
+          <img src="KaiMemes.jpg" alt="@KaiMemeZ"
+            style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 5px solid #1e1e2f; transition: transform 0.5s;">
         </a>
-     <!-- This was Kai AI Tracks but I commented it out because Kai took down the channel. Videos on the channel have also been removed. -->
+        <!-- This was Kai AI Tracks but I commented it out because Kai took down the channel. Videos on the channel have also been removed. -->
         <!--
           <a href="https://www.youtube.com/@kaiaitracks" target="_blank">
           <img src="KaiAITracks.jpg" alt="@KaiAITracks" style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 5px solid #1e1e2f; transition: transform 0.5s;">
         </a> -->
         <a href="https://www.tiktok.com/@kaieditz999" target="_blank">
-          <img src="tiktok.jpg" alt="@kaieditz999 (Tiktok)" style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 5px solid #1e1e2f; transition: transform 0.5s;">
+          <img src="tiktok.jpg" alt="@kaieditz999 (Tiktok)"
+            style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 5px solid #1e1e2f; transition: transform 0.5s;">
         </a>
-        <a href="https://discord.gg/UtzrtbYfu2" target="_blank">
-          <img src="discord.jpg" alt="Kai's Discord Server" style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 5px solid #1e1e2f; transition: transform 0.5s;">
-        </a>
+       <!-- <a href="https://discord.gg/UtzrtbYfu2" target="_blank">
+          <img src="discord.jpg" alt="Kai's Discord Server"
+            style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 5px solid #1e1e2f; transition: transform 0.5s;">
+        </a>  Discord doesn't exist and has been removed. Even though I was an admin, I was not informed and only came to know about this recently. Kai removed it.-->
       </div>
       <script>
         // click outside the popup to close it
-        window.addEventListener('click', function(event) {
+        window.addEventListener('click', function (event) {
           let popupContainer = document.getElementById('linksPopup');
           if (event.target === popupContainer) {
             popupContainer.style.display = 'none';
@@ -177,68 +655,69 @@
       // Hide the original game select content and show the game area
       document.getElementById('creditsContent').style.display = 'none';
       document.getElementById('easterEggGame').style.display = 'block';
-      initGame();
+      // initGame();
     }
 
-    let score = 0;
-    let circle = { x: 0, y: 0, radius: 20 };
-    function initGame() {
-      score = 0;
-      updateScore();
-      const canvas = document.getElementById('gameCanvas');
-      const ctx = canvas.getContext('2d');
-      placeCircle(canvas);
-      drawCircle(ctx);
-      canvas.addEventListener('click', canvasClickHandler);
-    }
-    function updateScore() {
-      document.getElementById('gameScore').innerText = 'Score: ' + score;
-    }
-    function placeCircle(canvas) {
-      // Position the circle randomly within the canvas bounds
-      circle.x = Math.random() * (canvas.width - 2 * circle.radius) + circle.radius;
-      circle.y = Math.random() * (canvas.height - 2 * circle.radius) + circle.radius;
-    }
-    function drawCircle(ctx) {
-      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-      ctx.fillStyle = '#ffa502';
-      ctx.beginPath();
-      ctx.arc(circle.x, circle.y, circle.radius, 0, Math.PI * 2);
-      ctx.fill();
-    }
-    function canvasClickHandler(event) {
-      const canvas = event.target;
-      const rect = canvas.getBoundingClientRect();
-      const clickX = event.clientX - rect.left;
-      const clickY = event.clientY - rect.top;
-      const distance = Math.sqrt((clickX - circle.x) ** 2 + (clickY - circle.y) ** 2);
-      if (distance < circle.radius) {
-        score++;
-        updateScore();
-        placeCircle(canvas);
-        drawCircle(canvas.getContext('2d'));
-      }
-    }
+        let score = 0;
+        let circle = { x: 0, y: 0, radius: 20 };
+        function initGame() {
+          score = 0;
+          updateScore();
+          const canvas = document.getElementById('gameCanvas');
+          const ctx = canvas.getContext('2d');
+          placeCircle(canvas);
+          drawCircle(ctx);
+          canvas.addEventListener('click', canvasClickHandler);
+        }
+        function updateScore() {
+          document.getElementById('gameScore').innerText = 'Score: ' + score;
+        }
+        function placeCircle(canvas) {
+          // Position the circle randomly within the canvas bounds
+          circle.x = Math.random() * (canvas.width - 2 * circle.radius) + circle.radius;
+          circle.y = Math.random() * (canvas.height - 2 * circle.radius) + circle.radius;
+        }
+        function drawCircle(ctx) {
+          ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+          ctx.fillStyle = '#ffa502';
+          ctx.beginPath();
+          ctx.arc(circle.x, circle.y, circle.radius, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        function canvasClickHandler(event) {
+          const canvas = event.target;
+          const rect = canvas.getBoundingClientRect();
+          const clickX = event.clientX - rect.left;
+          const clickY = event.clientY - rect.top;
+          const distance = Math.sqrt((clickX - circle.x) ** 2 + (clickY - circle.y) ** 2);
+          if (distance < circle.radius) {
+            score++;
+            updateScore();
+            placeCircle(canvas);
+            drawCircle(canvas.getContext('2d'));
+          }
+        }
   </script>
   <script>
     // Clicking outside the Credits popup closes it and resets the Easter Egg game if active.
-    window.addEventListener('click', function(event) {
+    window.addEventListener('click', function (event) {
       let popupContainer = document.getElementById('creditsPopup');
       if (event.target === popupContainer) {
         exitEasterEggGame(); // Resets the game and shows the credits content
         popupContainer.style.display = 'none';
       }
     });
-    </script>
-      <script>
-        // Clicking outside the Credits popup closes it
-        window.addEventListener('click', function(event) {
-          let popupContainer = document.getElementById('creditsPopup');
-          if (event.target === popupContainer) {
-            popupContainer.style.display = 'none';
-          }
-        });
-        </script>
+  </script>
+  <script>
+    // Clicking outside the Credits popup closes it
+    window.addEventListener('click', function (event) {
+      let popupContainer = document.getElementById('creditsPopup');
+      if (event.target === popupContainer) {
+        popupContainer.style.display = 'none';
+      }
+    });
+  </script>
 
 </body>
+
 </html>
