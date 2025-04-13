@@ -7,7 +7,7 @@ Welcome to the official repository for the Kai's Website containing information 
 
 ## Overview
 
-Kai's Webstie is built to inspire. Our website offers a sleek, intuitive interface alongside powerful editing guides (W.I.P). Whether you’re refining your favorite scenes or creating original content, Kai's Website makes it easy to transform your ideas into stunning edits with our guides which are coming doon!
+Kai's Website is built to inspire. Our website offers a sleek, intuitive interface alongside powerful editing guides (W.I.P). Whether you’re refining your favorite scenes or creating original content, Kai's Website makes it easy to transform your ideas into stunning edits with our guides which are coming doon!
 
 ---
 
